@@ -1,0 +1,429 @@
+/* ---------- Page + layout ---------- */
+.page {
+    min-height: 100vh;
+    background: linear-gradient(180deg, #eaf4ff 0%, #f8fbff 45%, #ffffff 100%);
+  }
+  
+  .container {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 28px 18px 40px;
+  }
+  
+  .stack {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+  
+  /* ---------- Hero ---------- */
+  .hero {
+    position: relative;
+    overflow: hidden;
+    border-radius: 24px;
+    padding: 34px;
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(15, 23, 42, 0.06);
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 26px;
+  }
+  
+  .hero-illus {
+    position: absolute;
+    inset: -40px -60px -40px -60px;
+    pointer-events: none;
+    color: #1f3a8a; /* controls illustration tint */
+    opacity: 0.55;
+    filter: blur(0px);
+  }
+  
+  .hero-illus svg {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .hero-left {
+    position: relative;
+    z-index: 1;
+  }
+  
+  .kicker {
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(15, 23, 42, 0.65);
+    margin: 0;
+  }
+  
+  .hero-title {
+    margin: 0;
+    font-size: 56px; /* 48–56px */
+    line-height: 1.05;
+    color: #0f172a;
+    letter-spacing: -0.02em;
+  }
+  
+  .hero-accent {
+    color: rgba(15, 23, 42, 0.82);
+  }
+  
+  .hero-sub {
+    margin: 8px 0 0;
+    font-size: 24px; /* 22–24px */
+    line-height: 1.35;
+    color: rgba(15, 23, 42, 0.72);
+    max-width: 54ch;
+  }
+  
+  /* ---------- Buttons + CTA hierarchy ---------- */
+  .hero-cta {
+    display: flex;
+    gap: 12px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+  }
+  
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 44px;
+    padding: 0 16px;
+    border-radius: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease, border 180ms ease;
+    user-select: none;
+  }
+  
+  .btn:hover {
+    transform: translateY(-1px); /* lift on hover */
+  }
+  
+  .btn-primary {
+    background: #ef476f; /* coral/red */
+    color: #0b1020;
+    border: 1px solid rgba(239, 71, 111, 0.35);
+    box-shadow: 0 10px 24px rgba(239, 71, 111, 0.18);
+  }
+  
+  .btn-primary:hover {
+    box-shadow: 0 14px 28px rgba(239, 71, 111, 0.24);
+  }
+  
+  .btn-outline {
+    background: rgba(255, 255, 255, 0.55);
+    color: #0f172a;
+    border: 1px solid rgba(15, 23, 42, 0.16);
+  }
+  
+  .btn-ghost {
+    background: transparent;
+    border: 1px solid rgba(15, 23, 42, 0.12);
+    color: rgba(15, 23, 42, 0.82);
+  }
+  
+  /* small buttons inside cards */
+  .btn.mini {
+    height: 38px;
+    padding: 0 14px;
+    border-radius: 12px;
+  }
+  
+  /* ---------- Trust row ---------- */
+  .trust-row {
+    display: flex;
+    gap: 16px;
+    margin-top: 14px;
+    flex-wrap: wrap;
+  }
+  
+  .trust-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.55);
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    color: rgba(15, 23, 42, 0.78);
+  }
+  
+  .trust-ico {
+    width: 18px;
+    height: 18px;
+    opacity: 0.9;
+  }
+  
+  /* ---------- Hero card / impact ---------- */
+  .hero-right {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+  }
+  
+  .hero-card {
+    width: 100%;
+    border-radius: 20px;
+    padding: 18px 18px 16px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    box-shadow: 0 18px 55px rgba(15, 23, 42, 0.10);
+    transform: translateY(6px);
+    opacity: 0;
+    transition: transform 420ms ease, opacity 420ms ease;
+  }
+  
+  .hero-card.in {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  
+  .hero-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .badge {
+    font-size: 12px;
+    font-weight: 700;
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: rgba(239, 71, 111, 0.12);
+    border: 1px solid rgba(239, 71, 111, 0.18);
+    color: rgba(15, 23, 42, 0.82);
+  }
+  
+  .hero-metric {
+    margin-top: 14px;
+  }
+  
+  .hero-metric-num {
+    font-size: 40px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: #0f172a;
+  }
+  
+  .small {
+    font-size: 13px;
+    color: rgba(15, 23, 42, 0.62);
+  }
+  
+  .quote {
+    margin-top: 10px;
+    font-size: 13px;
+    color: rgba(15, 23, 42, 0.62);
+  }
+  
+  /* ---------- Progress bar (thicker + animation) ---------- */
+  .progress {
+    height: 10px;
+    border-radius: 999px;
+    background: rgba(15, 23, 42, 0.08);
+    overflow: hidden;
+    border: 1px solid rgba(15, 23, 42, 0.06);
+  }
+  
+  .progress.thick {
+    height: 12px; /* thicker */
+  }
+  
+  .progress span {
+    display: block;
+    height: 100%;
+    border-radius: 999px;
+    background: rgba(16, 185, 129, 0.85); /* green progress */
+    width: 0%;
+    transform-origin: left center;
+  }
+  
+  /* animates width after mount */
+  .progress span.bar-in {
+    transition: width 700ms ease;
+  }
+  
+  /* ---------- Section head ---------- */
+  .section-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  
+  .h2 {
+    margin: 0;
+    font-size: 22px;
+    color: #0f172a;
+  }
+  
+  .p {
+    margin: 0;
+    color: rgba(15, 23, 42, 0.72);
+  }
+  
+  /* ---------- Featured campaigns grid + cards ---------- */
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  
+  .campaign-card {
+    text-decoration: none;
+    color: inherit;
+    border-radius: 20px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08); /* subtle shadow */
+    transition: transform 180ms ease, box-shadow 180ms ease;
+  }
+  
+  .campaign-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 22px 55px rgba(15, 23, 42, 0.12);
+  }
+  
+  .campaign-img{
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;   /* stable card media */
+    overflow: hidden;
+    border-radius: 18px;
+    background: rgba(15,23,42,0.04);
+    border: 1px solid rgba(15,23,42,0.08);
+  }
+  
+  .campaign-img img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;         /* key */
+  }
+  
+  /* Badge stays stable */
+  .campaign-img-badge{
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-weight: 800;
+    font-size: 0.75rem;
+    letter-spacing: 0.02em;
+    background: rgba(255,255,255,0.82);
+    border: 1px solid rgba(15,23,42,0.12);
+    backdrop-filter: blur(8px);
+  }
+  
+  .campaign-body {
+    padding: 16px; /* padding increased */
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .campaign-title {
+    font-size: 16px;
+    font-weight: 800;
+    color: #0f172a;
+  }
+  
+  .campaign-meta {
+    display: flex; /* goal/raised row */
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    color: rgba(15, 23, 42, 0.72);
+    font-size: 14px;
+  }
+  
+  .campaign-cta {
+    display: flex;
+    gap: 10px;
+    margin-top: 2px;
+  }
+  
+  .campaign-link { 
+    display: block; 
+    text-decoration: none; 
+    color: inherit; 
+  }
+  .campaign-title-link { 
+    text-decoration: none; 
+    color: inherit; 
+  }
+
+  .campaign-title-link:hover { 
+    text-decoration: underline; 
+  }
+
+  /* ---------- How it works ---------- */
+  .how {
+    padding-top: 6px;
+  }
+  
+  .how-grid {
+    margin-top: 12px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+  
+  .how-card {
+    border-radius: 18px;
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.68);
+    border: 1px solid rgba(15, 23, 42, 0.08);
+  }
+  
+  .how-num {
+    width: 32px;
+    height: 32px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    font-weight: 800;
+    background: rgba(59, 130, 246, 0.12);
+    border: 1px solid rgba(59, 130, 246, 0.16);
+    color: rgba(15, 23, 42, 0.82);
+  }
+  
+  .how-title {
+    margin-top: 10px;
+    font-weight: 800;
+    color: #0f172a;
+  }
+  
+  /* ---------- Footer ---------- */
+  .footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(15, 23, 42, 0.08);
+  }
+  
+  /* ---------- Responsive ---------- */
+  @media (max-width: 980px) {
+    .hero {
+      grid-template-columns: 1fr;
+    }
+    .grid-3,
+    .how-grid {
+      grid-template-columns: 1fr;
+    }
+    .hero-title {
+      font-size: 44px;
+    }
+    .hero-sub {
+      font-size: 20px;
+    }
+  }

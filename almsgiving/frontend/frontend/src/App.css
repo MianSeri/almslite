@@ -1,0 +1,334 @@
+/* -----------------------------
+   AlmsGiving UI: base + utilities
+   Premium rule:
+   - Teal + neutrals for 90% of UI (trust)
+   - Coral/Rose ONLY for giving + impact moments (CTA / highlights)
+------------------------------ */
+
+/* 1) Design tokens */
+:root {
+  /* Core surfaces (dark premium) */
+  --bg: #f7fbfb;
+  --surface: rgba(255, 255, 255, 0.72);
+  --surface-2: rgba(255, 255, 255, 0.88);
+  --border: rgba(15, 23, 42, 0.10);
+
+  --text: #0f172a;
+  --muted: #475569;
+
+  /* TRUST system (teal) */
+  --brand: #0f766e;      /* teal */
+  --brand-hover: #0d615b;
+
+  --brand-soft: rgba(15, 118, 110, 0.22);
+  --brand-ring: rgba(15, 118, 110, 0.18);
+
+  /* GIVING / IMPACT system (coral/rose) */
+  --give: #e11d48;       /* coral/rose */
+  --give-hover: #be123c;
+  --give-soft: rgba(225, 29, 72, 0.18);
+  --give-ring: rgba(225, 29, 72, 0.16);
+
+  /* States */
+  --success: #22c55e;
+  --danger: #ef4444;
+
+  /* Effects */
+  --shadow: 0 18px 50px rgba(15, 23, 42, 0.12);
+  --radius: 18px;
+
+  /* Layout */
+  --max: 1120px;
+  --pad: 16px;
+}
+
+/* 2) Reset + base typography */
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+
+body {
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  color: var(--text);
+
+  /* Brighter premium glass background */
+  background:
+    radial-gradient(1000px 600px at 10% 10%, rgba(15, 118, 110, 0.18), transparent 60%),
+    radial-gradient(900px 500px at 90% 15%, rgba(225, 29, 72, 0.10), transparent 55%),
+    radial-gradient(1000px 600px at 50% 100%, rgba(59, 130, 246, 0.08), transparent 60%),
+    linear-gradient(180deg, #f7fbfb, #eef6f7);
+}
+
+a { color: inherit; text-decoration: none; }
+a:hover { opacity: 0.92; }
+img { max-width: 100%; display: block; }
+
+/* 3) Layout helpers */
+.container {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 var(--pad);
+}
+
+.page { padding: 28px 0 56px; }
+
+.card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.78), rgba(255,255,255,0.60));
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(14px);
+}
+
+.card-pad { padding: 18px; }
+.stack { display: grid; gap: 14px; }
+
+.grid-3 {
+  display: grid;
+  gap: 16px;
+}
+@media (min-width: 900px) {
+  .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+/* 4) Type scale */
+.h1 { font-size: clamp(28px, 3vw, 40px); line-height: 1.1; margin: 0; letter-spacing: -0.02em; }
+.h2 { font-size: 20px; margin: 0; }
+.p { margin: 0; color: var(--muted); line-height: 1.55; }
+.small { font-size: 13px; color: var(--muted); }
+
+/* 5) Buttons + inputs */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text);
+  cursor: pointer;
+  transition: transform 120ms ease, opacity 120ms ease, background 120ms ease, border-color 120ms ease;
+}
+
+.btn:hover { transform: translateY(-0.5px); } /* half a pixel works and feels subtle */
+.btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+
+/* Primary = TEAL (trust) */
+.btn-primary {
+  border-color: rgba(15, 118, 110, 0.45);
+  background: linear-gradient(135deg, rgba(15, 118, 110, 0.95), rgba(15, 118, 110, 0.55));
+}
+.btn-primary:hover {
+  border-color: rgba(15, 118, 110, 0.65);
+  background: linear-gradient(135deg, rgba(13, 97, 91, 0.98), rgba(15, 118, 110, 0.55));
+}
+
+/* Giving CTA = ROSE (use for Donate only) */
+.btn-give {
+  border-color: rgba(225, 29, 72, 0.50);
+  background: linear-gradient(135deg, rgba(225, 29, 72, 0.98), rgba(225, 29, 72, 0.58));
+}
+.btn-give:hover {
+  border-color: rgba(225, 29, 72, 0.70);
+  background: linear-gradient(135deg, rgba(190, 18, 60, 0.98), rgba(225, 29, 72, 0.56));
+}
+
+/* Ghost stays neutral */
+.btn-ghost { background: transparent; }
+
+.btn-danger {
+  background: transparent;
+  border: 1px solid rgba(220, 38, 38, 0.25);
+  color: #dc2626;
+}
+.btn-danger:hover {
+  background: rgba(220, 38, 38, 0.08);
+  border-color: rgba(220, 38, 38, 0.35);
+}
+
+/* Inputs: teal focus ring = trust */
+.input, .textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--text);
+  outline: none;
+}
+.input:focus, .textarea:focus {
+  border-color: rgba(15, 118, 110, 0.6);
+  box-shadow: 0 0 0 3px var(--brand-ring);
+}
+
+.label { display: grid; gap: 6px; }
+
+/* 6) Navbar (Glass, light, premium) */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+
+  background: rgba(255, 255, 255, 0.70);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.nav-inner {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 14px var(--pad);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: rgba(15, 23, 42, 0.92);
+}
+
+/* Primary CTA on navbar (trust teal) */
+.pill.cta {
+  border-color: rgba(15, 118, 110, 0.30);
+  background: rgba(15, 118, 110, 0.10);
+  color: rgba(15, 23, 42, 0.92);
+  box-shadow: 0 10px 24px rgba(15, 118, 110, 0.14);
+}
+
+.pill.cta:hover { /* Very controlled and calm */
+  background: rgba(15, 118, 110, 0.12);
+  border-color: rgba(15, 118, 110, 0.38);
+  box-shadow: 0 6px 14px rgba(15, 118, 110, 0.12);
+}
+
+/* active state (NavLink) */
+.pill.active {
+  border-color: rgba(15, 118, 110, 0.22);
+  background: rgba(15, 118, 110, 0.10);
+  color: rgba(15, 23, 42, 0.88);
+}
+
+
+/* Logo now teal-led (trust). No rose here. */
+.logo {
+  width: 34px;
+  height: 34px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(15, 118, 110, 1), rgba(34, 197, 94, 0.85));
+  box-shadow: 0 8px 20px rgba(15, 118, 110, 0.22);
+  display: grid;
+  place-items: center;
+  font-weight: 900;
+}
+
+.nav-links {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.pill {
+  padding: 8px 10px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  color: var(--muted);
+}
+.pill:hover {
+  border-color: var(--border);
+  background: rgba(255,255,255,0.06);
+  color: var(--text);
+}
+
+/* 7) Simple list cards */
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.item {
+  padding: 14px;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.06);
+}
+
+.item-title {
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* 8) Progress bar
+   IMPORTANT: keep this TEAL (trust), not rose.
+   Rose appears only in CTA / Impact chips.
+*/
+.progress {
+  margin-top: 10px;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.progress > span {
+  display: block;
+  height: 100%;
+  width: 0%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(15, 118, 110, 0.95), rgba(34, 197, 94, 0.85));
+}
+
+/* ---------- OPTIONAL: small premium utilities ---------- */
+
+/* Use this on “Impact” numbers or donation totals */
+.impact {
+  color: rgba(255, 255, 255, 0.95);
+  background: linear-gradient(135deg, rgba(225, 29, 72, 0.20), rgba(15, 118, 110, 0.10));
+  border: 1px solid rgba(225, 29, 72, 0.18);
+  padding: 10px 12px;
+  border-radius: 14px;
+}
+
+/* Tiny badge for “Impact” or “Donation successful” */
+.badge-give {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(225, 29, 72, 0.12);
+  border: 1px solid rgba(225, 29, 72, 0.22);
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 12px;
+  font-weight: 700;
+}
+

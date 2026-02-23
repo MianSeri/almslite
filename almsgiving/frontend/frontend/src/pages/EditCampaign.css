@@ -1,0 +1,130 @@
+.page {
+    min-height: 100vh;
+    background: linear-gradient(180deg, #eaf4ff 0%, #f8fbff 45%, #ffffff 100%);
+  }
+  
+  .container {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 28px 18px 40px;
+  }
+  
+  .edit-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  
+  .edit-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  
+  .h1 {
+    margin: 0;
+    font-size: 44px;
+    letter-spacing: -0.02em;
+    color: #0f172a;
+  }
+  
+  .muted {
+    margin: 6px 0 0;
+    color: rgba(15, 23, 42, 0.65);
+  }
+  
+  .card {
+    border-radius: 20px;
+    padding: 18px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+  }
+  
+  .form {
+    display: grid;
+    gap: 14px;
+  }
+  
+  .field {
+    display: grid;
+    gap: 8px;
+  }
+  
+  .label {
+    font-weight: 700;
+    color: rgba(15, 23, 42, 0.82);
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+  
+  .input,
+  .textarea {
+    width: 100%;
+    border-radius: 14px;
+    border: 1px solid rgba(15, 23, 42, 0.14);
+    padding: 12px 12px;
+    font-size: 16px;
+    outline: none;
+    background: rgba(255, 255, 255, 0.8);
+    transition: box-shadow 180ms ease, border 180ms ease, transform 180ms ease;
+  }
+  
+  .input:focus,
+  .textarea:focus {
+    border-color: rgba(59, 130, 246, 0.35);
+    box-shadow: 0 0 0 6px rgba(59, 130, 246, 0.14);
+  }
+  
+  .actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    margin-top: 4px;
+  }
+  
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 44px;
+    padding: 0 16px;
+    border-radius: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease, border 180ms ease;
+  }
+  
+  .btn:hover {
+    transform: translateY(-1px);
+  }
+  
+  .btn-primary {
+    background: #ef476f;
+    color: #0b1020;
+    border: 1px solid rgba(239, 71, 111, 0.35);
+    box-shadow: 0 10px 24px rgba(239, 71, 111, 0.18);
+  }
+  
+  .btn-outline {
+    background: rgba(255, 255, 255, 0.55);
+    color: #0f172a;
+    border: 1px solid rgba(15, 23, 42, 0.16);
+  }
+  
+  .btn-ghost {
+    background: transparent;
+    border: 1px solid rgba(15, 23, 42, 0.12);
+    color: rgba(15, 23, 42, 0.82);
+  }
+  
+  .alert {
+    border-radius: 14px;
+    padding: 12px 14px;
+    background: rgba(239, 71, 111, 0.10);
+    border: 1px solid rgba(239, 71, 111, 0.18);
+    color: rgba(15, 23, 42, 0.82);
+  }

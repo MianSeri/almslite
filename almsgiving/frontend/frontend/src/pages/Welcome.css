@@ -1,0 +1,296 @@
+:root{
+    --teal: #0f766e;      /* trust */
+    --teal-2: #0ea5a4;
+    --rose: #fb7185;      /* donation / impact */
+    --rose-2: #f43f5e;
+    --ink: #0f172a;
+    --muted: #475569;
+    --bg: #f8fafc;
+    --card: #ffffff;
+    --border: rgba(15, 23, 42, 0.10);
+  }
+  
+  .welcome{
+    min-height: 100vh;
+    background: radial-gradient(900px 500px at 20% 10%, rgba(14,165,164,0.14), transparent 60%),
+                radial-gradient(900px 500px at 80% 20%, rgba(244,63,94,0.10), transparent 60%),
+                var(--bg);
+    color: var(--ink);
+    padding: 3rem 1.25rem 4rem;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  }
+  
+  .welcome-hero{
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 2rem;
+    align-items: center;
+  }
+  
+  @media (max-width: 900px){
+    .welcome-hero{ grid-template-columns: 1fr; }
+  }
+  
+  .welcome-kicker{
+    display: inline-block;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin: 0 0 0.75rem;
+  }
+  
+  .welcome-title{
+    font-size: clamp(2rem, 3vw, 3rem);
+    line-height: 1.05;
+    margin: 0 0 0.75rem;
+  }
+  
+  .welcome-subtitle{
+    margin: 0 0 1.25rem;
+    color: var(--muted);
+    font-size: 1.05rem;
+    max-width: 52ch;
+  }
+  
+  .welcome-actions{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+  
+  .btn{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.78rem 1rem;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    text-decoration: none;
+    font-weight: 650;
+    transition: transform .08s ease, box-shadow .2s ease, background .2s ease;
+    box-shadow: 0 10px 20px rgba(2,6,23,0.06);
+  }
+  
+  .btn:active{ transform: translateY(1px); }
+  
+  .btn--primary{
+    background: linear-gradient(180deg, var(--teal-2), var(--teal));
+    color: white;
+    border-color: rgba(14,165,164,0.35);
+  }
+  
+  .btn--donate{
+    background: linear-gradient(180deg, var(--rose), var(--rose-2));
+    color: white;
+    border-color: rgba(244,63,94,0.35);
+  }
+  
+  .btn--ghost{
+    background: rgba(255,255,255,0.6);
+    color: var(--ink);
+  }
+  
+  .welcome-meta{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+  
+  .badge{
+    font-size: 0.9rem;
+    color: var(--muted);
+    background: rgba(255,255,255,0.7);
+    border: 1px solid var(--border);
+    padding: 0.35rem 0.6rem;
+    border-radius: 999px;
+  }
+  
+  .welcome-hero__panel{
+    display: flex;
+    justify-content: center;
+  }
+  
+  .panel-card{
+    width: 100%;
+    max-width: 360px;
+    background: rgba(255,255,255,0.75);
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    padding: 1rem;
+    box-shadow: 0 25px 60px rgba(2,6,23,0.10);
+    backdrop-filter: blur(10px);
+  }
+  
+  .panel-row{
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    padding: 0.5rem;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.55);
+  }
+  
+  .dot{
+    width: 12px;
+    height: 12px;
+    border-radius: 999px;
+    background: linear-gradient(180deg, var(--teal-2), var(--teal));
+    box-shadow: 0 10px 20px rgba(14,165,164,0.25);
+  }
+  
+  .panel-lines{ flex: 1; }
+  .line{
+    height: 10px;
+    border-radius: 999px;
+    background: rgba(15,23,42,0.08);
+    margin: 0.35rem 0;
+  }
+  .line--lg{ width: 65%; }
+  
+  .panel-stats{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin: 0.9rem 0;
+  }
+  
+  .stat{
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.55);
+    border-radius: 16px;
+    padding: 0.75rem;
+  }
+  
+  .stat-label{
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+  .stat-value{
+    margin: 0.3rem 0 0;
+    font-size: 1.25rem;
+    font-weight: 800;
+  }
+  
+  .panel-progress{
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.55);
+    border-radius: 16px;
+    padding: 0.75rem;
+  }
+  
+  .progress-top{
+    display: flex;
+    justify-content: space-between;
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+  
+  .progress-bar{
+    height: 10px;
+    border-radius: 999px;
+    background: rgba(15,23,42,0.08);
+    overflow: hidden;
+    margin: 0.6rem 0 0.75rem;
+  }
+  
+  .progress-fill{
+    height: 100%;
+    width: 68%;
+    border-radius: 999px;
+    background: linear-gradient(180deg, var(--rose), var(--rose-2));
+  }
+  
+  .mini-cta{
+    width: 100%;
+    border: none;
+    padding: 0.7rem 0.9rem;
+    border-radius: 14px;
+    font-weight: 750;
+    cursor: pointer;
+    background: rgba(244,63,94,0.12);
+    color: var(--rose-2);
+  }
+  
+  .welcome-features{
+    max-width: 1100px;
+    margin: 3rem auto 0;
+  }
+  
+  .section-title{
+    margin: 0 0 1rem;
+    font-size: 1.4rem;
+  }
+  
+  .feature-grid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+  
+  @media (max-width: 900px){
+    .feature-grid{ grid-template-columns: 1fr; }
+  }
+  
+  .feature-card{
+    background: rgba(255,255,255,0.7);
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    padding: 1.2rem;
+    box-shadow: 0 20px 40px rgba(2,6,23,0.07);
+  }
+  
+  .feature-card h3{
+    margin: 0 0 0.35rem;
+    font-size: 1.1rem;
+  }
+  
+  .feature-card p{
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+  
+  .welcome-footer-cta{
+    max-width: 1100px;
+    margin: 3rem auto 0;
+  }
+  
+  .footer-cta{
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: center;
+    padding: 1.25rem;
+    background: rgba(255,255,255,0.7);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+  }
+  
+  @media (max-width: 900px){
+    .footer-cta{ flex-direction: column; align-items: stretch; }
+    .footer-actions{ width: 100%; }
+    .footer-actions .btn{ width: 100%; }
+  }
+  
+  .footer-title{
+    margin: 0 0 0.35rem;
+  }
+  
+  .footer-subtitle{
+    margin: 0;
+    color: var(--muted);
+  }
+  
+  .footer-actions{
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
