@@ -46,7 +46,7 @@ app.use("/donations", donationRoutes);
 app.use("/nonprofits", nonprofitRoutes);
 
 app.get("/ping", (req, res) => {
-  res.json({ message: "AlmsGiving Lite backend is running!" });
+  res.json({ message: "Alms Lite backend is running!" });
 });
 
 const PORT = process.env.PORT || 5050;

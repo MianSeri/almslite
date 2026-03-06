@@ -1,9 +1,9 @@
 const express = require("express");
 const Campaign = require("../models/Campaign");
 const requireAuth = require("../middleware/auth");
-const multer = require("multer");
-const path = require("path");
 const mongoose = require("mongoose");
+
+const upload = require("../utils/upload");
 
 const router = express.Router();
 
