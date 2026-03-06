@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useMemo } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import type { ChangeEvent, FormEvent, SVGProps } from "react";
 
@@ -81,18 +81,21 @@ function IconReceipt(props: SVGProps<SVGSVGElement>) {
 
 export default function NonprofitLoginPage() {
   const router = useRouter();
-  const searchParams = useSearchParams();
 
-  // Optional: allow redirect like /nonprofit/login?from=/dashboard
-  const next = searchParams.get("next");
-
-  const destination = useMemo(() => {
-    return next && next.startsWith("/") ? next : "/dashboard";
-  }, [next]);
-
+  const [nextPath, setNextPath] = useState("/dashboard");
   const [form, setForm] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState("");
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const next = params.get("next");
+    if (next && next.startsWith("/")) {
+      setNextPath(next);
+    }
+  }, []);
+
+  const destination = useMemo(() => nextPath, [nextPath]);
 
   function onChange(e: ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
@@ -115,10 +118,8 @@ export default function NonprofitLoginPage() {
       const token = resp?.token || resp?.accessToken;
       if (!token) throw new Error("Login succeeded but no token returned");
 
-      // store token in one place (used by apiFetch)
       storeToken(token);
 
-      // optional
       if (resp?.nonprofit) {
         localStorage.setItem("nonprofit", JSON.stringify(resp.nonprofit));
       }
@@ -136,7 +137,6 @@ export default function NonprofitLoginPage() {
     <div className={styles.authPage}>
       <div className={styles.authContainer}>
         <div className={styles.authCard}>
-          {/* LEFT */}
           <aside className={styles.authAside}>
             <div className={styles.authKicker}>Nonprofit Portal</div>
             <h1 className={styles.authTitle}>Welcome back</h1>
@@ -176,7 +176,6 @@ export default function NonprofitLoginPage() {
             </div>
           </aside>
 
-          {/* RIGHT */}
           <section className={styles.authMain}>
             <div className={styles.authMainHead}>
               <h2 className={styles.authH2}>Nonprofit login</h2>
