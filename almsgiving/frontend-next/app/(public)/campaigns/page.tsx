@@ -1,9 +1,10 @@
-//public campaign page
+// public campaign page
 
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { getCampaigns, type Campaign } from "@/lib/campaigns";
 import { resolveImageUrl } from "@/lib/resolveImageUrl";
 
@@ -29,7 +30,11 @@ function isUsableImageUrl(url: any) {
 }
 
 function placeholderSvgDataUrl(title = "Campaign") {
-  const safe = String(title).slice(0, 44).replace(/&/g, "and").replace(/</g, "");
+  const safe = String(title)
+    .slice(0, 44)
+    .replace(/&/g, "and")
+    .replace(/</g, "");
+
   const svg = `
   <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630">
     <defs>
@@ -57,12 +62,15 @@ function placeholderSvgDataUrl(title = "Campaign") {
       No image yet — still looks great.
     </text>
   </svg>`;
+
   return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
 }
 
 function getImgSrc(c: any) {
   const raw = c?.imageUrl;
-  if (!isUsableImageUrl(raw)) return placeholderSvgDataUrl(c?.title || "Campaign");
+  if (!isUsableImageUrl(raw)) {
+    return placeholderSvgDataUrl(c?.title || "Campaign");
+  }
   const resolved = resolveImageUrl(raw);
   return resolved || placeholderSvgDataUrl(c?.title || "Campaign");
 }
@@ -75,13 +83,13 @@ function statusLabel(status: any) {
 }
 
 export default function PublicCampaignsPage() {
+  const router = useRouter();
+
   const [items, setItems] = useState<Campaign[]>([]);
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState("");
-
   const [hasToken, setHasToken] = useState(false);
 
-  // client-only token check
   useEffect(() => {
     setHasToken(Boolean(localStorage.getItem("token")));
   }, []);
@@ -91,7 +99,7 @@ export default function PublicCampaignsPage() {
       setLoading(true);
       setErr("");
       const data = await getCampaigns();
-      const list = Array.isArray(data) ? data : ((data as any)?.campaigns ?? []);
+      const list = Array.isArray(data) ? data : (data as any)?.campaigns ?? [];
       setItems(Array.isArray(list) ? list : []);
     } catch (e: any) {
       setErr(e?.message || "Failed to load campaigns");
@@ -106,34 +114,30 @@ export default function PublicCampaignsPage() {
   }, []);
 
   const headerCtaHref = useMemo(() => {
-    // If a nonprofit is logged in, send them to their platform dashboard (adjust if needed)
     return hasToken ? "/dashboard" : "/nonprofit/login";
   }, [hasToken]);
-
-  function onCardCtaClick(e: React.MouseEvent) {
-    // prevent the outer <Link> from navigating to /campaigns/[id]
-    // so the button can go to /campaigns/[id]#donate instead.
-    e.stopPropagation();
-  }
 
   return (
     <div className="page">
       <div className="container">
-        {/* Header */}
         <div className="card card-pad">
           <div className="cpg-header">
             <div className="cpg-headerLeft">
               <div>
-              <Link href="/" className="cpg-backBtn">
-              ← Back
-              </Link>
+                <Link href="/" className="cpg-backBtn">
+                  ← Back
+                </Link>
+
                 <div className="cpg-headlineRow">
                   <h1 className="h1 cpg-h1">Campaigns</h1>
                   <span className="cpg-modeBadge" title="Public donor view">
                     Public
                   </span>
                 </div>
-                <p className="p cpg-sub">Explore causes and donate with confidence.</p>
+
+                <p className="p cpg-sub">
+                  Explore causes and donate with confidence.
+                </p>
 
                 <div className="cpg-modeRow">
                   <Link className="cpg-modeLink" href={headerCtaHref}>
@@ -144,9 +148,9 @@ export default function PublicCampaignsPage() {
             </div>
 
             <div className="cpg-headerRight">
-            <button className="btn btn-primary" onClick={load} type="button">
-              Refresh
-            </button>
+              <button className="btn btn-primary" onClick={load} type="button">
+                Refresh
+              </button>
             </div>
           </div>
         </div>
@@ -154,7 +158,12 @@ export default function PublicCampaignsPage() {
         {err ? (
           <div style={{ marginTop: 12 }}>
             <div className="alert alert-error">Error: {err}</div>
-            <button className="btn btn-ghost" onClick={load} style={{ marginTop: 12 }}>
+            <button
+              className="btn btn-ghost"
+              onClick={load}
+              style={{ marginTop: 12 }}
+              type="button"
+            >
               Retry
             </button>
           </div>
@@ -177,15 +186,29 @@ export default function PublicCampaignsPage() {
               const goal = Number(c?.goalAmount || 0);
               const raised = Number(c?.amountRaised || 0);
               const pct = percentFunded(raised, goal);
-
               const badge = statusLabel(c?.status);
 
               return (
-                <Link
+                <article
                   key={id || c?.title}
-                  href={id ? `/campaigns/${id}` : "/campaigns"}
                   className="card cpg-card"
-                  style={{ textDecoration: "none", color: "inherit" }}
+                  style={{
+                    textDecoration: "none",
+                    color: "inherit",
+                    cursor: id ? "pointer" : "default",
+                  }}
+                  onClick={() => {
+                    if (id) router.push(`/campaigns/${id}`);
+                  }}
+                  onKeyDown={(e) => {
+                    if (!id) return;
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      router.push(`/campaigns/${id}`);
+                    }
+                  }}
+                  tabIndex={id ? 0 : -1}
+                  role={id ? "link" : undefined}
                 >
                   <div className="cpg-media">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -194,20 +217,27 @@ export default function PublicCampaignsPage() {
                       alt={c?.title || "Campaign"}
                       loading="lazy"
                       onError={(e) => {
-                        (e.currentTarget as HTMLImageElement).src = placeholderSvgDataUrl(
-                          c?.title || "Campaign"
-                        );
+                        (e.currentTarget as HTMLImageElement).src =
+                          placeholderSvgDataUrl(c?.title || "Campaign");
                       }}
                     />
-                    <span className={`cpg-status ${(c?.status || "active").toLowerCase()}`}>
+                    <span
+                      className={`cpg-status ${String(
+                        c?.status || "active"
+                      ).toLowerCase()}`}
+                    >
                       {badge}
                     </span>
                   </div>
 
                   <div className="cpg-body">
-                    <div className="cpg-title">{c?.title || "Untitled campaign"}</div>
+                    <div className="cpg-title">
+                      {c?.title || "Untitled campaign"}
+                    </div>
 
-                    {c?.description ? <div className="cpg-desc">{c.description}</div> : null}
+                    {c?.description ? (
+                      <div className="cpg-desc">{c.description}</div>
+                    ) : null}
 
                     <div className="cpg-progressWrap">
                       <div className="progress" aria-label="Campaign progress">
@@ -228,23 +258,28 @@ export default function PublicCampaignsPage() {
                     </div>
 
                     <div className="cpg-actions">
-                    {id ? (
+                      {id ? (
                         <Link
                           href={`/campaigns/${id}#donate`}
                           className="btn btn-primary"
-                          onClick={onCardCtaClick}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                          }}
                           aria-label={`Donate to ${c?.title || "campaign"}`}
                         >
                           View & Donate
                         </Link>
                       ) : (
-                        <span className="btn btn-primary" style={{ pointerEvents: "none", opacity: 0.7 }}>
+                        <span
+                          className="btn btn-primary"
+                          style={{ pointerEvents: "none", opacity: 0.7 }}
+                        >
                           View & Donate
                         </span>
                       )}
                     </div>
                   </div>
-                </Link>
+                </article>
               );
             })}
           </div>
