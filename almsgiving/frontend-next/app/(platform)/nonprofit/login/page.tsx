@@ -7,7 +7,7 @@ import type { ChangeEvent, FormEvent, SVGProps } from "react";
 
 import { loginNonprofit } from "@/lib/authApi";
 import { storeToken } from "@/lib/auth";
-import styles from "../NonprofitAuth.module.css"; 
+import styles from "../NonprofitAuth.module.css";
 
 function IconPencil(props: SVGProps<SVGSVGElement>) {
   return (
@@ -98,31 +98,31 @@ export default function NonprofitLoginPage() {
     const { name, value } = e.target;
     setForm((f) => ({ ...f, [name]: value }));
   }
-  
+
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setErr("");
     setLoading(true);
-  
+
     try {
       const payload = {
         email: form.email.trim().toLowerCase(),
         password: form.password,
       };
-  
+
       const resp = await loginNonprofit(payload);
-  
+
       const token = resp?.token || resp?.accessToken;
       if (!token) throw new Error("Login succeeded but no token returned");
-  
+
       // store token in one place (used by apiFetch)
       storeToken(token);
-  
+
       // optional
       if (resp?.nonprofit) {
         localStorage.setItem("nonprofit", JSON.stringify(resp.nonprofit));
       }
-  
+
       router.replace(destination);
     } catch (e: unknown) {
       const msg = e instanceof Error ? e.message : "Login failed";
