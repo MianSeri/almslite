@@ -18,6 +18,44 @@ function percentFunded(raised: any, goal: any) {
   return Math.max(0, Math.min(100, Math.round((r / g) * 100)));
 }
 
+function placeholderSvgDataUrl(title = "Campaign") {
+  const safe = String(title).slice(0, 40).replace(/&/g, "and").replace(/</g, "");
+  const svg = `
+  <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630">
+    <defs>
+      <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#dbeafe"/>
+        <stop offset="45%" stop-color="#e0f2fe"/>
+        <stop offset="100%" stop-color="#ffe4e6"/>
+      </linearGradient>
+      <linearGradient id="pill" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#0ea5a4"/>
+        <stop offset="100%" stop-color="#0f766e"/>
+      </linearGradient>
+    </defs>
+    <rect width="1200" height="630" fill="url(#bg)"/>
+    <circle cx="220" cy="170" r="150" fill="#0ea5a4" opacity="0.12"/>
+    <circle cx="980" cy="240" r="220" fill="#fb7185" opacity="0.10"/>
+    <rect x="70" y="420" width="220" height="56" rx="28" fill="url(#pill)" opacity="0.92"/>
+    <text x="92" y="457" font-family="system-ui, -apple-system, Segoe UI, Roboto" font-size="22" fill="white" font-weight="700">
+      Alms
+    </text>
+    <text x="70" y="335" font-family="system-ui, -apple-system, Segoe UI, Roboto" font-size="54" fill="#0f172a" font-weight="800">
+      ${safe}
+    </text>
+    <text x="70" y="380" font-family="system-ui, -apple-system, Segoe UI, Roboto" font-size="24" fill="#475569">
+      No image provided — your story still shows beautifully.
+    </text>
+  </svg>`;
+  return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+}
+
+function getCampaignImgSrc(campaign: any) {
+  const raw = campaign?.imageUrl || campaign?.image;
+  const resolved = resolveImageUrl(raw);
+  return resolved || placeholderSvgDataUrl(campaign?.title);
+}
+
 export default function MyCampaignsPage() {
   const [items, setItems] = useState<Campaign[]>([]);
   const [loading, setLoading] = useState(true);
@@ -76,7 +114,7 @@ export default function MyCampaignsPage() {
 
         <div className="mcp-list">
           {items.map((c) => {
-            const img = resolveImageUrl(c.imageUrl) || "";
+            const img = getCampaignImgSrc(c);
             const pct = percentFunded(c.amountRaised, c.goalAmount);
             const raised = Number(c.amountRaised || 0);
             const goal = Number(c.goalAmount || 0);
@@ -85,9 +123,14 @@ export default function MyCampaignsPage() {
             return (
               <article key={c._id} className="mcp-card">
                 <div className="mcp-media">
-                  {img ? (
-                    <img src={img} alt={c.title || "Campaign"} />
-                  ) : null}
+                  <img
+                    src={img}
+                    alt={c.title || "Campaign"}
+                    onError={(e) => {
+                      (e.currentTarget as HTMLImageElement).src =
+                        placeholderSvgDataUrl(c.title || "Campaign");
+                    }}
+                  />
 
                   <span className={`mcp-status ${status}`}>{status}</span>
                 </div>
@@ -114,7 +157,9 @@ export default function MyCampaignsPage() {
                     {c.description ? (
                       <p className="mcp-desc">{c.description}</p>
                     ) : (
-                      <div className="mcp-callout">Add a short description to strengthen trust and clarity.</div>
+                      <div className="mcp-callout">
+                        Add a short description to strengthen trust and clarity.
+                      </div>
                     )}
                   </div>
 
