@@ -1,7 +1,14 @@
 /* Page background (soft blue → off-white) */
 .authPage {
     min-height: 100vh;
-    background: linear-gradient(180deg, #eaf4ff 0%, #f8fbff 45%, #ffffff 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+    background:
+      radial-gradient(circle at 15% 20%, rgba(20, 184, 166, 0.08), transparent 40%),
+      radial-gradient(circle at 85% 80%, rgba(244, 63, 94, 0.08), transparent 40%),
+      linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
   }
 
   .authPage input.input,
@@ -17,20 +24,23 @@
   .authCard {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    max-width: 1100px;
+    width: 100%;
     border-radius: 28px;
-    overflow: hidden;
-    background: rgba(255, 255, 255, 0.85);
-    border: 1px solid rgba(15, 23, 42, 0.06);
   
-    /* softer premium shadow */
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(20px);
+  
     box-shadow:
-      0 30px 80px rgba(15, 23, 42, 0.12),
-      0 6px 18px rgba(15, 23, 42, 0.06);
+      0 20px 50px rgba(15, 23, 42, 0.08),
+      0 4px 10px rgba(15, 23, 42, 0.04);
+  
+    overflow: hidden;
   }
   
   /* LEFT */
   .authAside {
-    padding: 48px;
+    padding: 60px;
     background:
       radial-gradient(800px 300px at 20% 10%, rgba(239, 71, 111, 0.10), transparent 60%),
       radial-gradient(800px 300px at 80% 90%, rgba(59, 130, 246, 0.10), transparent 60%),
@@ -45,11 +55,15 @@
   }
   
   .authTitle {
-    margin: 10px 0 0;
-    font-size: 48px;
-    letter-spacing: -0.04em;
-    color: #0f172a;
+    font-size: 3.1rem;
+    font-weight: 750;
+    letter-spacing: -0.03em;
     line-height: 1.05;
+    margin-bottom: 18px;
+  
+    background: linear-gradient(120deg, #0f172a, #1e293b);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
   
   .authSub {
@@ -102,7 +116,7 @@
   
   /* RIGHT */
   .authMain {
-    padding: 48px;
+    padding: 60px;
     background: rgba(255, 255, 255, 0.88);
     border-left: 1px solid rgba(15, 23, 42, 0.04);
   }
@@ -143,8 +157,10 @@
   }
   
   .field {
-    display: grid;
+    display: flex;
+    flex-direction: column;
     gap: 8px;
+    margin-bottom: 18px;
   }
   
   .label {
@@ -156,14 +172,24 @@
   }
   
   .input,
-  .textarea {
+.textarea {
   width: 100%;
+  padding: 14px 16px;
   border-radius: 14px;
-  border: 1px solid rgba(15, 23, 42, 0.10);
-  background: rgba(255, 255, 255, 0.92);
-  box-shadow: 0 1px 0 rgba(15, 23, 42, 0.04);
-  color: rgba(15, 23, 42, 0.88);
-  }
+
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: rgba(255, 255, 255, 0.9);
+
+  transition: all 0.2s ease;
+  font-size: 0.95rem;
+}
+
+.input:focus,
+.textarea:focus {
+  outline: none;
+  border: 1px solid rgba(20, 184, 166, 0.6);
+  box-shadow: 0 0 0 4px rgba(20, 184, 166, 0.08);
+}
 
   .input {
     width: 100%;
@@ -183,21 +209,28 @@
   }
   
   .btnPrimary {
-    height: 48px;
+    margin-top: 20px;
+    padding: 14px 18px;
     border-radius: 16px;
-    font-size: 16px;
-    font-weight: 700;
-    border: 1px solid rgba(239, 71, 111, 0.35);
-    background: #ef476f;
-    color: #0b1020;
+    border: none;
+  
+    font-weight: 650;
+    font-size: 0.95rem;
+  
+    background: linear-gradient(135deg, #fb7185, #f43f5e);
+    color: white;
+  
+    box-shadow:
+      0 8px 20px rgba(244, 63, 94, 0.25);
+  
+    transition: all 0.25s ease;
     cursor: pointer;
-    box-shadow: 0 3px 28px rgba(247, 204, 214, 0.18);
-    transition: transform 160ms ease, box-shadow 160ms ease;
   }
   
-  .btnPrimary:hover { /* subtle lift + gentle depth + premium polish */
-    transform: translateY(-1px);
-    box-shadow: 0 8px 18px rgba(239, 71, 111, 0.16);
+  .btnPrimary:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 14px 30px rgba(244, 63, 94, 0.35);
   }
   
   .btnPrimary:disabled {
@@ -315,4 +348,32 @@
       border-left: none;
       border-top: 1px solid rgba(15, 23, 42, 0.06);
     }
+  }
+
+  .authSuccess{
+    margin: 12px 0;
+    padding: 12px 14px;
+    border-radius: 14px;
+    border: 1px solid rgba(15,118,110,0.25);
+    background: rgba(15,118,110,0.08);
+    color: rgba(15,23,42,0.9);
+    font-weight: 650;
+  }
+  
+  .authPwRules {
+    margin-top: 12px;
+    font-size: 0.85rem;
+    opacity: 0.75;
+  }
+  
+  .authRule{
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    opacity: 0.7;
+  }
+  
+  .authRule.ok {
+    color: #0f766e;
+    opacity: 1;
   }

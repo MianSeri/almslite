@@ -1,4 +1,5 @@
-import { Routes, Route } from "react-router-dom";
+import { useEffect } from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
 
 import Campaigns from "./pages/Campaigns";
 import CreateCampaign from "./pages/CreateCampaign";
@@ -17,7 +18,29 @@ import Dashboard from "./pages/Dashboard";
 
 import "./App.css";
 
+function useSafeBackTracking() {
+  const location = useLocation();
+
+  useEffect(() => {
+    const path = location.pathname;
+
+    // Never "back" into donation/checkout-related pages
+    const unsafe =
+      path.includes("/donate") ||
+      path.includes("/donations") ||
+      path.includes("/checkout") ||
+      path.includes("/success") ||
+      path.includes("/cancel");
+
+    if (!unsafe) {
+      sessionStorage.setItem("alms:lastSafeFrom", path + location.search);
+    }
+  }, [location.pathname, location.search]);
+}
+
 export default function App() {
+  useSafeBackTracking();
+
   return (
     <>
       {/* Global navigation */}
@@ -28,16 +51,16 @@ export default function App() {
         <Routes>
           {/* PUBLIC */}
           <Route path="/" element={<Home />} />
-          <Route path="/welcome" element={<Welcome />} />
           <Route path="/campaigns" element={<Campaigns />} />
           <Route path="/campaigns/:id" element={<CampaignDetail />} />
-          
+
           <Route path="/nonprofit/login" element={<NonprofitLogin />} />
           <Route path="/nonprofit/register" element={<NonprofitRegister />} />
           <Route path="/nonprofit/forgot-password" element={<NonprofitForgotPassword />} />
 
           {/* PROTECTED */}
           <Route element={<RequireAuth />}>
+            <Route path="/welcome" element={<Welcome />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/campaigns/my" element={<MyCampaigns />} />
             <Route path="/campaigns/new" element={<CreateCampaign />} />

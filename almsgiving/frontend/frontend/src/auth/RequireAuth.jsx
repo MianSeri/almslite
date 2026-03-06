@@ -9,7 +9,7 @@ export default function RequireAuth() {
   if (!isAuthed) {
     return (
       <Navigate
-        to="/login"
+        to="/nonprofit/login"
         replace
         state={{ from: location }} // remembers where user tried to go
       />

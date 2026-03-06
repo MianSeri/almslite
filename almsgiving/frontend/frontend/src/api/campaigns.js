@@ -38,9 +38,22 @@ export async function getMyCampaigns() {
 
 // PROTECTED: POST /campaigns
 export function createCampaign(payload) {
+  const fd = new FormData();
+
+  fd.append("title", payload.title || "");
+  fd.append("description", payload.description || "");
+  fd.append("goalAmount", String(payload.goalAmount ?? 0));
+  fd.append("status", payload.status || "active");
+
+  // optional manual URL
+  if (payload.imageUrl) fd.append("imageUrl", payload.imageUrl);
+
+  // optional file upload (key must match multer: upload.single("image"))
+  if (payload.imageFile) fd.append("image", payload.imageFile);
+
   return apiFetch("/campaigns", {
     method: "POST",
-    body: JSON.stringify(payload),
+    body: fd,
   });
 }
 
@@ -57,8 +70,25 @@ export async function deleteCampaign(id) {
 
 // PATCH /campaigns/:id
 export async function updateCampaign(id, payload) {
-  return apiFetch(`/campaigns/${id}`, {
+  if (!id || typeof id !== "string" || !id.trim()) {
+    throw new Error("Missing campaign id");
+  }
+
+  const fd = new FormData();
+
+  if (payload.title != null) fd.append("title", payload.title);
+  if (payload.description != null) fd.append("description", payload.description);
+  if (payload.goalAmount != null) fd.append("goalAmount", String(payload.goalAmount));
+  if (payload.status != null) fd.append("status", payload.status);
+
+  // optional manual URL
+  if (payload.imageUrl != null) fd.append("imageUrl", payload.imageUrl);
+
+  // optional file upload
+  if (payload.imageFile) fd.append("image", payload.imageFile);
+
+  return apiFetch(`/campaigns/${id.trim()}`, {
     method: "PATCH",
-    body: JSON.stringify(payload),
+    body: fd,
   });
 }

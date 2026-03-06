@@ -30,28 +30,32 @@ const donationSchema = new mongoose.Schema(
     // Stripe PI id or PayPal order/capture id
     providerPaymentId: { type: String, default: null },
 
-    // New: Stripe Charge ID (ch_...) – created after success
+    // Stripe Charge ID (ch_...) – created after success
     providerChargeId: { type: String, default: null },
 
     currency: { type: String, default: "usd" },
 
     // Idempotency (per campaign)
-    idempotencyKey: { type: String, required: true, unique: true }, // unique: true, so even if two requests race, Mongo guarantees only one wins.
+    idempotencyKey: { type: String, required: true },
+
     // App-level status
-    status: { 
-      type: String, 
-      enum: ["PENDING", "COMPLETED", "FAILED"], 
-      default: "PENDING" 
+    status: {
+      type: String,
+      enum: ["PENDING", "COMPLETED", "FAILED"],
+      default: "PENDING",
     },
 
     // When the donation was successfully confirmed
     confirmedAt: { type: Date, default: null },
-  },
 
+    // Receipt tracking (idempotent email safety)
+    receiptSentAt: { type: Date, default: null },
+    receiptId: { type: String, default: null },
+  },
   { timestamps: true }
 );
 
-// Enforce idempotency per campaign
+// Enforce idempotency per campaign (correct approach)
 donationSchema.index(
   { campaignId: 1, idempotencyKey: 1 },
   { unique: true }

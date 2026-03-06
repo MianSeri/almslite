@@ -7,18 +7,20 @@ export default function Navbar() {
 
   const pillClass = ({ isActive }) => `pill${isActive ? " active" : ""}`;
 
+  // Logged-in "Home" becomes nonprofit home
+  const homeTo = isLoggedIn ? "/welcome" : "/";
 
   return (
     <header className="nav">
       <div className="nav-inner">
-        {/* Logo ALWAYS goes home */}
-        <Link to="/" className="brand">
+        {/* Logo goes to the right home */}
+        <Link to={homeTo} className="brand">
           <span className="logo">A</span>
           <span>Alms</span>
         </Link>
 
         <nav className="nav-links">
-          <NavLink className={pillClass} to="/">Home</NavLink>
+          <NavLink className={pillClass} to={homeTo}>Home</NavLink>
           <NavLink className={pillClass} to="/campaigns">Campaigns</NavLink>
 
           {isLoggedIn && (

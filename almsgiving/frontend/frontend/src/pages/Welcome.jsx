@@ -6,84 +6,112 @@ export default function Welcome() {
 
   return (
     <main className="welcome">
-      <section className="welcome-hero">
+      {/* HERO (Nonprofit-first) */}
+      <section className="welcome-hero welcome-hero--nonprofit">
         <div className="welcome-hero__content">
-          <p className="welcome-kicker">AlmsGiving Lite</p>
+          <p className="welcome-kicker">
+            {hasToken ? "Welcome back" : "Nonprofit onboarding"}
+          </p>
 
           <h1 className="welcome-title">
-            A clean, secure way to support causes you care about.
+            {hasToken ? "Build your next impact." : "Launch campaigns with clarity and trust."}
           </h1>
 
           <p className="welcome-subtitle">
-            Discover verified nonprofit campaigns, donate in minutes, and see impact with
-            transparent updates.
+            {hasToken
+              ? "Create campaigns, track donations, and share a page that donors trust - without the chaos."
+              : "Create a verified profile, publish your first campaign, and start collecting donations securely."}
           </p>
 
           <div className="welcome-actions">
-            {/* Trust CTA (teal) */}
-            <Link className="btn btn--primary" to="/campaigns">
-              Browse campaigns
-            </Link>
-
-            {/* Donation CTA (rose/coral) */}
-            <Link className="btn btn--donate" to="/campaigns">
-              Donate now
-            </Link>
-
-            {/* Optional nonprofit CTA */}
+            {/* Primary (teal / system) */}
             <Link
-              className="btn btn--ghost"
+              className="btn btn--primary"
               to={hasToken ? "/dashboard" : "/nonprofit/register"}
             >
-              {hasToken ? "Go to dashboard" : "Start a campaign"}
+              {hasToken ? "Open dashboard" : "Create nonprofit account"}
+            </Link>
+
+            {/* Secondary */}
+            <Link className="btn btn--ghost" to="/campaigns">
+              Preview public campaigns
+            </Link>
+
+            {/* Tertiary (quiet link style button) */}
+            <Link className="btn btn--link" to={hasToken ? "/campaigns/new" : "/nonprofit/login"}>
+              {hasToken ? "Create a campaign" : "Already have an account? Log in"}
             </Link>
           </div>
 
           <div className="welcome-meta">
-            <span className="badge">Stripe payments</span>
-            <span className="badge">Receipts</span>
-            <span className="badge">Campaign tracking</span>
+            <span className="badge">Stripe-powered checkout</span>
+            <span className="badge">Receipts & records</span>
+            <span className="badge">Real-time totals</span>
           </div>
         </div>
 
+        {/* Right panel = nonprofit workspace preview */}
         <div className="welcome-hero__panel" aria-hidden="true">
-          <div className="panel-card">
+          <div className="panel-card panel-card--workspace">
             <div className="panel-row">
               <div className="dot" />
               <div className="panel-lines">
                 <div className="line line--lg" />
                 <div className="line" />
               </div>
+              <span className="panel-chip">Workspace</span>
             </div>
 
             <div className="panel-stats">
               <div className="stat">
-                <p className="stat-label">Today’s impact</p>
-                <p className="stat-value">$2,450</p>
+                <p className="stat-label">Donations (30 days)</p>
+                <p className="stat-value">$12,480</p>
+                <p className="stat-sub">132 donors</p>
               </div>
               <div className="stat">
-                <p className="stat-label">Recurring donors</p>
-                <p className="stat-value">128</p>
+                <p className="stat-label">Active campaigns</p>
+                <p className="stat-value">3</p>
+                <p className="stat-sub">1 draft</p>
               </div>
             </div>
 
             <div className="panel-progress">
               <div className="progress-top">
-                <span className="progress-label">Education Fund</span>
+                <span className="progress-label">Next milestone</span>
                 <span className="progress-value">68%</span>
               </div>
+
               <div className="progress-bar">
                 <div className="progress-fill" />
               </div>
 
-              <button className="mini-cta" type="button">
-                Make a donation
+              <div className="panel-todos">
+                <div className="todo">
+                  <span className="todo-dot" />
+                  <span className="todo-text">Finish campaign story</span>
+                  <span className="todo-tag">Draft</span>
+                </div>
+                <div className="todo">
+                  <span className="todo-dot" />
+                  <span className="todo-text">Add cover image</span>
+                  <span className="todo-tag">Recommended</span>
+                </div>
+                <div className="todo">
+                  <span className="todo-dot" />
+                  <span className="todo-text">Share campaign link</span>
+                  <span className="todo-tag">Ready</span>
+                </div>
+              </div>
+
+              <button className="mini-cta mini-cta--teal" type="button">
+                Create campaign
               </button>
             </div>
           </div>
         </div>
       </section>
 
+      {/* Keep the rest as-is for now */}
       <section className="welcome-features">
         <h2 className="section-title">Built for trust, made for generosity</h2>
 
@@ -116,16 +144,16 @@ export default function Welcome() {
           <div>
             <h2 className="footer-title">Ready to make an impact?</h2>
             <p className="footer-subtitle">
-              Explore campaigns and support one today — one-time or recurring.
+              Create a campaign in minutes and share a page donors trust.
             </p>
           </div>
 
           <div className="footer-actions">
-            <Link className="btn btn--donate" to="/campaigns">
-              Find a campaign
+            <Link className="btn btn--primary" to="/campaigns/new">
+              Create a campaign
             </Link>
-            <Link className="btn btn--ghost" to="/nonprofit/login">
-              Nonprofit login
+            <Link className="btn btn--ghost" to="/dashboard">
+              Open dashboard
             </Link>
           </div>
         </div>

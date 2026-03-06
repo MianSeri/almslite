@@ -58,6 +58,14 @@ export default function CreateCampaign() {
     return "A major goal — perfect for a full campaign story.";
   }, [form.goalAmount]);
 
+  const statusColor = useMemo(() => {
+    // teal / slate / amber (you can adjust later)
+    if (form.status === "active") return "rgba(15,118,110,1)";
+    if (form.status === "draft") return "rgba(100,116,139,1)";
+    if (form.status === "paused") return "rgba(245,158,11,1)";
+    return "rgba(15,118,110,1)";
+  }, [form.status]);
+
   function handleChange(e) {
     const { name, value } = e.target;
     setForm((f) => ({ ...f, [name]: value }));
@@ -74,6 +82,9 @@ export default function CreateCampaign() {
         description: form.description.trim(),
         goalAmount: Number(String(form.goalAmount).replace(/[^\d.]/g, "")),
         status: form.status,
+
+        // send the chosen file (multer expects field name "image" but your API wrapper maps imageFile -> image)
+        imageFile,
       };
 
       // Only send imageUrl if it’s a real http(s) URL.
@@ -197,16 +208,28 @@ export default function CreateCampaign() {
 
               <div className="cc-field">
                 <label htmlFor="status">Status</label>
-                <select
-                  id="status"
-                  name="status"
-                  value={form.status}
-                  onChange={handleChange}
+
+                {/* NEW: styled select wrapper (dot + custom chevron) */}
+                <div
+                  className="cc-selectWrap"
+                  style={{ ["--statusColor"]: statusColor }}
                 >
-                  <option value="active">Active (public)</option>
-                  <option value="draft">Draft (private)</option>
-                  <option value="paused">Paused</option>
-                </select>
+                  <select
+                    id="status"
+                    name="status"
+                    value={form.status}
+                    onChange={handleChange}
+                    className="cc-select"
+                    aria-label="Campaign status"
+                  >
+                    <option value="active">Active (public)</option>
+                    <option value="draft">Draft (private)</option>
+                    <option value="paused">Paused</option>
+                  </select>
+
+                  <span className="cc-selectChevron" aria-hidden="true" />
+                </div>
+
                 <p className="cc-hint">Draft won’t show on public campaigns.</p>
               </div>
             </div>
@@ -246,7 +269,7 @@ export default function CreateCampaign() {
                   }}
                 />
                 <p className="cc-hint">
-                  Preview only for now (we’ll add actual uploads next).
+                  Upload a jpg/png flyer (max ~5MB). If you don’t upload one, we’ll use a placeholder.
                 </p>
               </div>
             </div>

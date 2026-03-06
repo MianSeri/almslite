@@ -9,10 +9,12 @@ const campaignRoutes = require("./routes/campaigns");
 const donationRoutes = require("./routes/donations");
 const webhookRoutes = require("./routes/webhooks");
 
+const nonprofitRoutes = require("./routes/nonprofits");
+
 const app = express();
 
 const corsOptions = {
-  origin: "http://localhost:5173",
+  origin: ["http://localhost:3000", "http://localhost:5173"],
   credentials: true,
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization", "Idempotency-Key"],
@@ -41,6 +43,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/auth", authRoutes);
 app.use("/campaigns", campaignRoutes);
 app.use("/donations", donationRoutes);
+app.use("/nonprofits", nonprofitRoutes);
 
 app.get("/ping", (req, res) => {
   res.json({ message: "AlmsGiving Lite backend is running!" });

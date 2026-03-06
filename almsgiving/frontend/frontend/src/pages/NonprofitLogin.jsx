@@ -28,9 +28,27 @@ function IconPencil(props) {
 function IconChart(props) {
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true" {...props}>
-      <path d="M4 19V5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-      <path d="M4 19h16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-      <path d="M8 15v-5M12 15V7M16 15v-3" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+      <path
+        d="M4 19V5"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+      />
+      <path
+        d="M4 19h16"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+      />
+      <path
+        d="M8 15v-5M12 15V7M16 15v-3"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+      />
     </svg>
   );
 }
@@ -59,13 +77,15 @@ function IconReceipt(props) {
 export default function NonprofitLogin() {
   const nav = useNavigate();
   const location = useLocation();
-  const from = location.state?.from?.pathname || "/dashboard";
   const { login } = useAuth();
+
+  // If we later use protected routes and pass "from",
+  // this will send them back there. Otherwise fallback to /welcome.
+  const destination = location.state?.from?.pathname || "/welcome";
 
   const [form, setForm] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState("");
-  
 
   function onChange(e) {
     setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
@@ -76,14 +96,18 @@ export default function NonprofitLogin() {
     setErr("");
     setLoading(true);
 
-    console.log("LOGIN form payload =", form);
-
     try {
-      const resp = await loginNonprofit(form);
+      const payload = {
+        email: form.email.trim().toLowerCase(),
+        password: form.password,
+      };
+
+      const resp = await loginNonprofit(payload);
       login(resp);
-      nav(from, { replace: true });
+      nav(destination, { replace: true });
     } catch (e) {
-      setErr(e?.error || e?.message || "Login failed");
+      // apiFetch throws Error(msg) and attaches e.data
+      setErr(e?.data?.error || e?.message || "Login failed");
     } finally {
       setLoading(false);
     }
@@ -93,12 +117,13 @@ export default function NonprofitLogin() {
     <div className="authPage">
       <div className="authContainer">
         <div className="authCard">
-          {/* LEFT: Brand + benefits (lighter, calmer) */}
+          {/* LEFT */}
           <aside className="authAside">
             <div className="authKicker">Nonprofit Portal</div>
             <h1 className="authTitle">Welcome back</h1>
             <p className="authSub">
-            Manage campaigns, track donations, and build trust with transparent progress.
+              Manage campaigns, track donations, and build trust with transparent
+              progress.
             </p>
 
             <div className="authBullets">
@@ -132,7 +157,7 @@ export default function NonprofitLogin() {
             </div>
           </aside>
 
-          {/* RIGHT: Form */}
+          {/* RIGHT */}
           <section className="authMain">
             <div className="authMainHead">
               <h2 className="authH2">Nonprofit login</h2>
@@ -176,7 +201,7 @@ export default function NonprofitLogin() {
 
               <div className="authRow">
                 <Link className="linkBtn" to="/nonprofit/forgot-password">
-                Forgot password?
+                  Forgot password?
                 </Link>
               </div>
 

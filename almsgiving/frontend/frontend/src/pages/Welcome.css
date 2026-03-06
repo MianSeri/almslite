@@ -294,3 +294,81 @@
     flex-wrap: wrap;
     justify-content: flex-end;
   }
+
+  /* Nonprofit hero variant */
+.welcome-hero--nonprofit .welcome-kicker{
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.8;
+  }
+  
+  /* Link-style button used in hero */
+  .btn--link{
+    background: transparent;
+    border: 0;
+    padding: 0.25rem 0;
+    text-decoration: none;
+    color: inherit;
+    opacity: 0.9;
+  }
+  .btn--link:hover{
+    opacity: 1;
+    text-decoration: underline;
+  }
+  
+  /* Workspace chip (top-right of panel header row) */
+  .panel-card--workspace .panel-chip{
+    margin-left: auto;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 999px;
+    border: 1px solid rgba(0,0,0,0.06);
+    background: rgba(255,255,255,0.6);
+  }
+  
+  /* Small subtext under stat values */
+  .stat-sub{
+    margin-top: 0.25rem;
+    font-size: 0.85rem;
+    opacity: 0.72;
+  }
+  
+  /* Todo list in panel */
+  .panel-todos{
+    margin-top: 0.75rem;
+    display: grid;
+    gap: 0.5rem;
+  }
+  .todo{
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.55rem 0.6rem;
+    border-radius: 0.75rem;
+    border: 1px solid rgba(0,0,0,0.06);
+    background: rgba(255,255,255,0.55);
+  }
+  .todo-dot{
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(0,128,128,0.75);
+    box-shadow: 0 0 0 4px rgba(0,128,128,0.12);
+  }
+  .todo-text{
+    flex: 1;
+    font-size: 0.9rem;
+    opacity: 0.9;
+  }
+  .todo-tag{
+    font-size: 0.75rem;
+    padding: 0.2rem 0.45rem;
+    border-radius: 999px;
+    border: 1px solid rgba(0,0,0,0.06);
+    opacity: 0.8;
+  }
+  
+  /* Ensure nonprofit panel CTA stays teal (not rose) */
+  .mini-cta--teal{
+    border: 1px solid rgba(0,128,128,0.25);
+  }
