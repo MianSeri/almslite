@@ -38,24 +38,6 @@ router.get("/mine/list", requireAuth, async (req, res) => {
   }
 });
 
-// ---------- Multer config ----------
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, "uploads/"),
-  filename: (req, file, cb) => {
-    const ext = path.extname(file.originalname).toLowerCase();
-    cb(null, `${Date.now()}-${Math.round(Math.random() * 1e9)}${ext}`);
-  },
-});
-
-const upload = multer({
-  storage,
-  fileFilter: (req, file, cb) => {
-    const ok = ["image/jpeg", "image/png", "image/jpg"].includes(file.mimetype);
-    cb(ok ? null : new Error("Only jpg/png allowed"), ok);
-  },
-  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
-});
-
 /**
  * PUBLIC: GET /campaigns/:id
  * Get one campaign by id (donor-facing)
