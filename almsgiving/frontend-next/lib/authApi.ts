@@ -24,3 +24,22 @@ export async function forgotPassword(email: string) {
     body: { email } as any,
   });
 }
+
+export async function resetPassword({
+  token,
+  email,
+  password,
+}: {
+  token: string;
+  email: string;
+  password: string;
+}) {
+  return apiFetch("/auth/reset-password", {
+    method: "POST",
+    body: JSON.stringify({
+      token,
+      email,
+      password,
+    }),
+  });
+}
