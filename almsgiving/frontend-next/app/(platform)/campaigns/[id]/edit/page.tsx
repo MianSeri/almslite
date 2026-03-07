@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 
-import { getCampaign, updateCampaign, type Campaign } from "@/lib/campaigns";
+import { getCampaign, updateCampaign } from "@/lib/campaigns";
 import { resolveImageUrl } from "@/lib/resolveImageUrl";
 
 function formatUSD(value: any) {
@@ -13,7 +13,6 @@ function formatUSD(value: any) {
   return n.toLocaleString("en-US", { style: "currency", currency: "USD" });
 }
 
-// Simple pretty placeholder (matches your vibe)
 function placeholderSvgDataUrl(title = "Campaign") {
   const safe = String(title).slice(0, 40).replace(/&/g, "and").replace(/</g, "");
   const svg = `
@@ -44,6 +43,13 @@ function placeholderSvgDataUrl(title = "Campaign") {
     </text>
   </svg>`;
   return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+}
+
+function isHttpUrl(u: string) {
+  const s = String(u || "").trim();
+  if (!s) return false;
+  if (s.startsWith("file://")) return false;
+  return /^https?:\/\/.+/i.test(s) || s.startsWith("/uploads/");
 }
 
 export default function EditCampaignPage() {
@@ -103,15 +109,7 @@ export default function EditCampaignPage() {
 
   const titleCount = form.title.length;
   const descCount = form.description.length;
-
   const goalPretty = useMemo(() => formatUSD(form.goalAmount), [form.goalAmount]);
-
-  const imageUrlOk = useMemo(() => {
-    const u = (form.imageUrl || "").trim();
-    if (!u) return false;
-    if (u.startsWith("file://")) return false;
-    return /^https?:\/\/.+/i.test(u) || u.startsWith("/uploads/");
-  }, [form.imageUrl]);
 
   const previewSrc = useMemo(() => {
     if (imagePreview) return imagePreview;
@@ -125,12 +123,14 @@ export default function EditCampaignPage() {
     return placeholderSvgDataUrl(form.title || "Campaign");
   }, [imagePreview, form.imageUrl, form.title]);
 
-  function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
+  function handleChange(
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) {
     const { name, value } = e.target;
     setForm((f) => ({ ...f, [name]: value }));
   }
 
-  async function onSubmit(e: React.FormEvent) {
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!id) return;
 
@@ -138,15 +138,31 @@ export default function EditCampaignPage() {
     setSaving(true);
 
     try {
+      const fd = new FormData();
+      fd.append("title", form.title.trim());
+      fd.append("description", form.description.trim());
+      fd.append(
+        "goalAmount",
+        String(Number(String(form.goalAmount).replace(/[^\d.]/g, "")) || 0)
+      );
+      fd.append("status", form.status);
+
+      // Required third option support:
+      // send imageUrl in FormData even when clearing it
+      fd.append("imageUrl", isHttpUrl(form.imageUrl) ? form.imageUrl.trim() : "");
+
+      if (imageFile) {
+        fd.append("image", imageFile);
+      }
+
       await updateCampaign(id, {
         title: form.title.trim(),
         description: form.description.trim(),
         goalAmount: Number(String(form.goalAmount).replace(/[^\d.]/g, "")) || 0,
         status: form.status,
-        imageUrl: imageUrlOk ? form.imageUrl.trim() : "", // allow clearing
+        imageUrl: form.imageUrl,
         imageFile: imageFile || undefined,
       });
-
       router.replace("/campaigns/my");
     } catch (e2: any) {
       setErr(e2?.data?.error || e2?.message || "Failed to save changes");
@@ -258,11 +274,12 @@ export default function EditCampaignPage() {
                 <input
                   id="imageUrl"
                   name="imageUrl"
+                  type="url"
                   value={form.imageUrl}
                   onChange={handleChange}
                   placeholder="https://example.com/photo.jpg or /uploads/..."
                 />
-                <p className="ec-hint">Use a direct jpg/png link. (No file:// paths)</p>
+                <p className="ec-hint">Use a direct jpg/png link. Best for deployed demo campaigns.</p>
               </div>
 
               <div className="ec-field">
@@ -311,7 +328,9 @@ export default function EditCampaignPage() {
               src={previewSrc}
               alt="Preview"
               onError={(e) => {
-                (e.currentTarget as HTMLImageElement).src = placeholderSvgDataUrl(form.title || "Campaign");
+                (e.currentTarget as HTMLImageElement).src = placeholderSvgDataUrl(
+                  form.title || "Campaign"
+                );
               }}
             />
           </div>

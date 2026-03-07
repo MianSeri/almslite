@@ -2,7 +2,7 @@
 
 export const dynamic = "force-dynamic";
 
-import { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import styles from "./CreateCampaign.module.css";
@@ -10,13 +10,13 @@ import styles from "./CreateCampaign.module.css";
 import { createCampaign } from "@/lib/campaigns";
 import { getStoredToken } from "@/lib/auth";
 
-function formatUSD(value) {
+function formatUSD(value: any) {
   const n = Number(String(value).replace(/[^\d.]/g, ""));
   if (!Number.isFinite(n)) return "";
   return n.toLocaleString("en-US", { style: "currency", currency: "USD" });
 }
 
-function isHttpUrl(u) {
+function isHttpUrl(u: any) {
   const s = String(u || "").trim();
   if (!s) return false;
   if (s.startsWith("file://")) return false;
@@ -71,8 +71,8 @@ export default function CreateCampaignPage() {
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState("");
 
-  const [imageFile, setImageFile] = useState(null);
-  const [imagePreview, setImagePreview] = useState("");
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string>("");
 
   useEffect(() => {
     const token = getStoredToken();
@@ -85,7 +85,6 @@ export default function CreateCampaignPage() {
     setCheckedAuth(true);
   }, [router]);
 
-  // cleanup object URL
   useEffect(() => {
     return () => {
       if (imagePreview) URL.revokeObjectURL(imagePreview);
@@ -121,34 +120,49 @@ export default function CreateCampaignPage() {
     return placeholderSvgDataUrl(form.title || "Campaign");
   }, [imagePreview, form.imageUrl, form.title]);
 
-  function handleChange(e) {
+  function handleChange(
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) {
     const { name, value } = e.target;
     setForm((f) => ({ ...f, [name]: value }));
   }
 
-  async function onSubmit(e) {
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setErr("");
     setLoading(true);
 
     try {
-      const payload = {
+      const payload: {
+        title: string;
+        description: string;
+        goalAmount: number;
+        status: string;
+        imageUrl?: string;
+        imageFile?: File;
+      } = {
         title: form.title.trim(),
         description: form.description.trim(),
-        goalAmount: Number(String(form.goalAmount).replace(/[^\d.]/g, "")),
+        goalAmount: Number(String(form.goalAmount).replace(/[^\d.]/g, "")) || 0,
         status: form.status,
-        imageFile: imageFile || undefined,
       };
+
+      if (imageFile) {
+        payload.imageFile = imageFile;
+      }
 
       if (isHttpUrl(form.imageUrl)) {
         payload.imageUrl = form.imageUrl.trim();
       }
 
       await createCampaign(payload);
-
       router.replace("/campaigns/my");
-    } catch (e2) {
-      setErr(e2?.message || "Failed to create campaign");
+    } catch (e2: unknown) {
+      if (e2 instanceof Error) {
+        setErr(e2.message);
+      } else {
+        setErr("Failed to create campaign");
+      }
     } finally {
       setLoading(false);
     }
@@ -159,7 +173,6 @@ export default function CreateCampaignPage() {
   return (
     <main className={styles.page}>
       <div className={styles.shell}>
-        {/* LEFT */}
         <section className={styles.card}>
           <header className={styles.header}>
             <div>
@@ -258,7 +271,10 @@ export default function CreateCampaignPage() {
 
               <div className={styles.field}>
                 <label htmlFor="status">Status</label>
-                <div className={styles.selectWrap} style={{ ["--statusColor"]: statusColor }}>
+                <div
+                  className={styles.selectWrap}
+                  style={{ "--statusColor": statusColor } as React.CSSProperties}
+                >
                   <select
                     id="status"
                     name="status"
@@ -295,19 +311,25 @@ export default function CreateCampaignPage() {
                   id="imageFile"
                   type="file"
                   accept="image/jpeg,image/png"
-                  onChange={(e) => {
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                     const file = e.target.files?.[0] || null;
+
                     setImageFile(file);
 
                     if (imagePreview) {
                       URL.revokeObjectURL(imagePreview);
                     }
 
-                    if (file) setImagePreview(URL.createObjectURL(file));
-                    else setImagePreview("");
+                    if (file) {
+                      setImagePreview(URL.createObjectURL(file));
+                    } else {
+                      setImagePreview("");
+                    }
                   }}
                 />
-                <p className={styles.hint}>Upload a flyer/cover image. If none, we’ll show a placeholder.</p>
+                <p className={styles.hint}>
+                  Upload a flyer/cover image. If none, we’ll show a placeholder.
+                </p>
               </div>
             </div>
 
@@ -316,25 +338,30 @@ export default function CreateCampaignPage() {
                 Cancel
               </Link>
 
-              <button className={`${styles.btn} ${styles.btnPrimary}`} type="submit" disabled={loading}>
+              <button
+                className={`${styles.btn} ${styles.btnPrimary}`}
+                type="submit"
+                disabled={loading}
+              >
                 {loading ? "Creating…" : "Create campaign"}
               </button>
             </div>
           </form>
         </section>
 
-        {/* RIGHT */}
         <aside className={styles.previewCard} aria-label="Live preview">
           <div className={styles.previewHead}>
             <p className={styles.previewTitle}>Live preview</p>
-            <span className={`${styles.pill} ${styles["pill-" + form.status]}`}>{form.status}</span>
+            <span className={`${styles.pill} ${styles["pill-" + form.status]}`}>
+              {form.status}
+            </span>
           </div>
 
           <div className={styles.previewMedia}>
             <img
               src={previewSrc}
               alt="Campaign preview"
-              onError={(e) => {
+              onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
                 e.currentTarget.src = placeholderSvgDataUrl(form.title || "Campaign");
               }}
             />
