@@ -1,8 +1,15 @@
-# Alms Lite
+## Alms Lite Overview
 
-Alms Lite is a full-stack donation platform that enables nonprofit organizations to launch fundraising campaigns and receive secure online donations through Stripe.
+Alms Lite is a fundraising platform designed to help nonprofit organizations launch campaigns and receive online donations securely.
 
-This project was built as a capstone for the Springboard Software Engineering program.
+The platform provides:
+
+- A public campaign discovery experience for donors
+- A secure dashboard for nonprofit organizations
+- Stripe-powered donation processing
+- Automated email receipts and password reset workflows
+
+The project demonstrates a full-stack architecture using modern web technologies including **Next.js, Express, MongoDB, Stripe, and Resend**.
 
 ## Key Highlights
 
@@ -21,8 +28,7 @@ This project was built as a capstone for the Springboard Software Engineering pr
 - Server-side file uploads using Multer
 - MongoDB schema modeling with Mongoose
 - Client/server separation using Next.js and Express
-
-  
+ 
 ---
 
 # Live Demo
@@ -54,12 +60,38 @@ https://almslite-frontend.onrender.com/campaigns
 - Dashboard to manage campaigns
 
 ### Platform Features
-- Stripe payment integration
-- MongoDB database for persistent campaign data
-- Image upload support
+- Stripe payment integration with webhook verification
+- Automatic donation receipt emails via Resend
+- Password reset email workflow
+- MongoDB transactions for donation confirmation
 - REST API backend
 - Responsive UI
 - Protected routes for nonprofit dashboard
+
+### Email Features
+
+- Password reset email flow using Resend
+- Automatic donation receipts sent after successful Stripe payments
+
+## Email System
+
+Transactional emails are handled using **Resend**.
+
+Two automated email workflows are implemented:
+
+### Password Reset Emails
+Users can request a password reset link.  
+A secure token is generated and sent via email.
+
+### Donation Receipts
+After Stripe confirms a successful payment, a webhook triggers the backend to:
+
+1. Verify the Stripe event
+2. Confirm the donation in the database
+3. Increment the campaign's raised amount
+4. Send a receipt email to the donor
+
+This ensures donation confirmation and receipts are processed **only after verified payment events**.
 
 ---
 
@@ -102,12 +134,11 @@ Express API (Node.js)
 MongoDB Atlas (Database)
 
 Stripe Payment Flow
-Browser -➤ Backend -➤ Stripe -➤ Webhook -➤ Database
-
+Browser -➤ Backend -➤ Stripe -➤ Webhook -➤ Database -➤ Email Receipt
 
 ---
 
-# Project Structure
+## Project Structure
 
 almsgiving
 │
@@ -115,7 +146,9 @@ almsgiving
 │ ├── app
 │ ├── components
 │ ├── lib
-│ └── styles
+│ ├── public
+│ ├── package.json
+│ └── next.config.ts
 │
 ├── backend
 │ ├── config
@@ -123,9 +156,17 @@ almsgiving
 │ ├── models
 │ ├── routes
 │ ├── utils
+│ ├── uploads
+│ ├── package.json
 │ └── server.js
 │
 └── README.md
+
+The project follows a monorepo structure separating the frontend and backend applications.
+
+- **frontend-next/** contains the Next.js client application.
+- **backend/** contains the Express API, database models, and Stripe webhook logic.
+- Both services communicate through REST APIs.
 
 ---
 
@@ -237,6 +278,7 @@ FRONTEND_URL=https://almslite-frontend.onrender.com
 
 RESEND_API_KEY=your_resend_key
 FROM_EMAIL=<sender_email>
+RECEIPT_TEST_EMAIL=<personal@gmail.com>
 
 Frontend `.env`
 
@@ -311,13 +353,12 @@ Public image URLs are recommended for deployed demo campaigns because local file
 Potential future improvements include:
 
 - Persistent image storage (Cloudinary or AWS S3)
-- Email receipts for donations
-- Password reset email integration
-- Donation history dashboard
-- Recurring donations
+- Donation history dashboard for nonprofits
+- Recurring donations / subscription giving
 - Admin moderation tools
-- Campaign categories and search
+- Campaign categories and advanced search
 - Multi-language support
+- Analytics dashboard for nonprofits
 
 ---
 
@@ -345,6 +386,28 @@ Manual testing was performed for:
 - Authentication
 - Dashboard access control
 
+
+## Email Receipts (Development Mode)
+
+Donation receipts are sent using **Resend**.
+
+During development, Resend operates in **sandbox mode**, which restricts outgoing emails to the account owner's verified email address.
+
+Because of this limitation, all donation receipts are temporarily routed to:
+
+**mianbseri@gmail.com**
+
+instead of the donor’s email address.
+
+This allows the email workflow to be demonstrated during testing.
+
+In a production environment this would be resolved by:
+
+- Verifying a sending domain with Resend
+- Updating the `FROM_EMAIL` address to a domain email (e.g., `donations@almslite.org`)
+- Sending receipts directly to donor email addresses
+
+
 ---
 
 ## Deployment note
@@ -352,6 +415,13 @@ Manual testing was performed for:
 Campaigns support both uploaded images and public image URLs.
 
 For deployed demo content, public image URLs are recommended because local file uploads on Render free hosting are not persistent across redeploys.
+
+## Security Considerations
+
+- Passwords are securely hashed using **bcrypt**
+- Authentication is handled using **JWT tokens**
+- Stripe webhook signatures are verified before processing events
+- MongoDB transactions ensure donation confirmation and campaign updates remain consistent
 
 
 # Author
