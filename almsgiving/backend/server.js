@@ -14,7 +14,7 @@ const nonprofitRoutes = require("./routes/nonprofits");
 const app = express();
 
 const corsOptions = {
-  origin: ["http://localhost:3000", "http://localhost:5173"],
+  origin: ["http://localhost:3000", "http://localhost:5173", "https://almslite-frontend.onrender.com"], 
   credentials: true,
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization", "Idempotency-Key"],
