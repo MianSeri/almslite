@@ -5,7 +5,6 @@
   align-items: center;
   justify-content: center;
   padding: 32px 16px;
-
   background:
     radial-gradient(circle at 15% 20%, rgba(20, 184, 166, 0.08), transparent 40%),
     radial-gradient(circle at 85% 80%, rgba(244, 63, 94, 0.08), transparent 40%),
@@ -41,7 +40,7 @@
   overflow: hidden;
 }
 
-/* LEFT */
+/* Left panel */
 .authAside {
   padding: 60px;
   background:
@@ -58,27 +57,31 @@
 }
 
 .authTitle {
+  margin: 0 0 18px;
   font-size: 3.1rem;
   font-weight: 750;
   letter-spacing: -0.03em;
   line-height: 1.05;
-  margin: 0 0 18px;
   color: #0f172a;
 }
 
 .authSub {
   margin: 14px 0 0;
-  font-size: 17px;
-  color: rgba(15, 23, 42, 0.65);
-  line-height: 1.6;
   max-width: 52ch;
+  font-size: 17px;
+  line-height: 1.6;
+  color: rgba(15, 23, 42, 0.65);
+}
+
+.authAsideFooter {
+  margin-top: 18px;
 }
 
 /* Bullets */
 .authBullets {
-  margin-top: 28px;
   display: grid;
   gap: 18px;
+  margin-top: 28px;
 }
 
 .authBullet {
@@ -87,7 +90,7 @@
   gap: 12px;
   padding: 16px 18px;
   border-radius: 18px;
-  background: rgba(255, 255, 255, 0.60);
+  background: rgba(255, 255, 255, 0.6);
   border: 1px solid rgba(15, 23, 42, 0.07);
   color: rgba(15, 23, 42, 0.78);
 }
@@ -95,14 +98,14 @@
 .bulletIcon {
   width: 34px;
   height: 34px;
-  border-radius: 14px;
+  flex: 0 0 auto;
   display: grid;
   place-items: center;
   margin-top: 1px;
+  border-radius: 14px;
   background: rgba(255, 255, 255, 0.65);
-  border: 1px solid rgba(15, 23, 42, 0.10);
+  border: 1px solid rgba(15, 23, 42, 0.1);
   color: rgba(15, 23, 42, 0.78);
-  flex: 0 0 auto;
 }
 
 .ico {
@@ -110,11 +113,7 @@
   height: 18px;
 }
 
-.authAsideFooter {
-  margin-top: 18px;
-}
-
-/* RIGHT */
+/* Right panel */
 .authMain {
   padding: 60px;
   background: rgba(255, 255, 255, 0.88);
@@ -135,33 +134,32 @@
 
 .authHint {
   margin: 0;
-  color: rgba(15, 23, 42, 0.62);
   font-size: 14px;
+  color: rgba(15, 23, 42, 0.62);
 }
 
-/* Error */
+/* Alerts */
 .authAlert {
-  border-radius: 14px;
+  margin-bottom: 10px;
   padding: 12px 14px;
-  background: rgba(239, 71, 111, 0.10);
+  border-radius: 14px;
+  background: rgba(239, 71, 111, 0.1);
   border: 1px solid rgba(239, 71, 111, 0.18);
   color: rgba(15, 23, 42, 0.84);
-  margin-bottom: 10px;
 }
 
-/* Success */
 .authSuccess {
-  margin: 12px 0;
+  margin: 12px 0 14px;
   padding: 12px 14px;
   border-radius: 14px;
   border: 1px solid rgba(15, 118, 110, 0.25);
   background: rgba(15, 118, 110, 0.08);
-  color: rgba(15, 23, 42, 0.9);
+  color: #047857;
   font-weight: 650;
 }
 
 .resetSuccess {
-  padding: 16px 16px;
+  padding: 16px;
   border-radius: 18px;
   background: rgba(16, 185, 129, 0.08);
   border: 1px solid rgba(16, 185, 129, 0.16);
@@ -194,11 +192,11 @@
 }
 
 .label {
-  font-weight: 700;
   font-size: 12px;
-  letter-spacing: 0.10em;
+  font-weight: 700;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: rgba(15, 23, 42, 0.70);
+  color: rgba(15, 23, 42, 0.7);
 }
 
 /* Inputs */
@@ -209,9 +207,9 @@
   border-radius: 14px;
   border: 1px solid rgba(15, 23, 42, 0.08);
   background: rgba(255, 255, 255, 0.9);
+  color: #0f172a;
   font-size: 0.95rem;
   transition: all 0.2s ease;
-  color: #0f172a;
 }
 
 .input,
@@ -221,16 +219,15 @@
 }
 
 .textarea {
+  min-height: 90px;
   padding: 12px 14px;
   resize: vertical;
-  min-height: 90px;
 }
 
 .readonlyField {
   display: flex;
   align-items: center;
   background: rgba(248, 250, 252, 0.95);
-  border: 1px solid rgba(15, 23, 42, 0.08);
   color: rgba(15, 23, 42, 0.88);
 }
 
@@ -242,22 +239,47 @@
   background: rgba(255, 255, 255, 0.98);
 }
 
-/* placeholder soften */
 .input::placeholder,
 .textarea::placeholder {
   color: rgba(15, 23, 42, 0.38);
+}
+
+/* Password fields */
+.passwordInputWrap {
+  position: relative;
+}
+
+.passwordInputWrap .input {
+  padding-right: 78px;
+}
+
+.passwordToggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 0;
+  background: transparent;
+  color: #6b7280;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 4px 6px;
+}
+
+.passwordToggle:hover {
+  color: #0f172a;
 }
 
 /* Buttons */
 .btnPrimary {
   margin-top: 20px;
   padding: 14px 18px;
-  border-radius: 16px;
   border: none;
-  font-weight: 650;
-  font-size: 0.95rem;
+  border-radius: 16px;
   background: linear-gradient(135deg, #fb7185, #f43f5e);
   color: white;
+  font-size: 0.95rem;
+  font-weight: 650;
   box-shadow: 0 8px 20px rgba(244, 63, 94, 0.25);
   transition: all 0.25s ease;
   cursor: pointer;
@@ -277,11 +299,11 @@
 .btnSecondary {
   padding: 12px 16px;
   border-radius: 14px;
-  border: 1px solid rgba(15, 23, 42, 0.10);
+  border: 1px solid rgba(15, 23, 42, 0.1);
   background: rgba(255, 255, 255, 0.85);
   color: rgba(15, 23, 42, 0.84);
-  font-weight: 600;
   font-size: 0.92rem;
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
 }
@@ -291,14 +313,13 @@
   border-color: rgba(15, 23, 42, 0.16);
 }
 
-/* Forgot password row */
+/* Rows / actions */
 .authRow {
   display: flex;
   justify-content: flex-end;
   margin-top: -4px;
 }
 
-/* Action row for success state */
 .authActions {
   display: flex;
   align-items: center;
@@ -307,11 +328,11 @@
   margin-top: 16px;
 }
 
-/* Make it subtle */
+/* Links */
 .linkBtn {
-  background: none;
-  border: none;
   padding: 0;
+  border: none;
+  background: none;
   cursor: pointer;
   font-size: 13px;
   font-weight: 600;
@@ -322,7 +343,7 @@
 }
 
 .linkBtn:hover {
-  color: rgba(15, 23, 42, 0.80);
+  color: rgba(15, 23, 42, 0.8);
   border-bottom-color: rgba(15, 23, 42, 0.32);
   transform: translateY(-1px);
 }
@@ -338,7 +359,7 @@
   border-bottom-color: rgba(15, 23, 42, 0.46);
 }
 
-/* Single-column auth layout (forgot password) */
+/* Single-column auth layout */
 .authSingle {
   grid-template-columns: 1fr;
   max-width: 760px;
@@ -347,6 +368,10 @@
 
 .authSingle .authMain {
   border-left: none;
+}
+
+.authSingleCompact {
+  max-width: 980px;
 }
 
 .authSingleCompact .authAside {
@@ -372,7 +397,7 @@
   text-align: center;
 }
 
-/* Password rule helpers */
+/* Password rules */
 .authPwRules {
   margin-top: 12px;
   font-size: 0.85rem;
@@ -412,11 +437,11 @@
   }
 
   .authSingleCompact .authAside {
-    padding: 34px 28px 20px;
+    padding: 28px 20px 18px;
   }
 
   .authSingleCompact .authMain {
-    padding: 20px 28px 34px;
+    padding: 20px 20px 28px;
   }
 }
 
@@ -455,38 +480,4 @@
     flex-direction: column;
     align-items: stretch;
   }
-}
-
-.passwordInputWrap {
-  position: relative;
-}
-
-.passwordInputWrap .input {
-  padding-right: 78px;
-}
-
-.passwordToggle {
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  border: 0;
-  background: transparent;
-  color: #6b7280;
-  font-weight: 600;
-  cursor: pointer;
-  padding: 4px 6px;
-}
-
-.passwordToggle:hover {
-  color: #0f172a;
-}
-
-.authSuccess {
-  margin-bottom: 14px;
-  padding: 12px 14px;
-  border-radius: 14px;
-  background: rgba(16, 185, 129, 0.1);
-  border: 1px solid rgba(16, 185, 129, 0.22);
-  color: #047857;
 }
