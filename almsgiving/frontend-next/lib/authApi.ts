@@ -39,7 +39,7 @@ export async function resetPassword({
     body: JSON.stringify({
       token,
       email,
-      password,
+      newPassword: password,
     }),
   });
 }

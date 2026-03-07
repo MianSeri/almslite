@@ -82,7 +82,7 @@ router.post("/register", async (req, res) => {
         error: "Email already registered",
       });
     }
-  
+
     console.error(err);
     return res.status(500).json({ error: "Server error" });
   }
@@ -170,17 +170,17 @@ router.post("/forgot-password", async (req, res) => {
     // DEV MODE: log it so you can finish today
     console.log("PASSWORD RESET LINK:", resetUrl);
 
-        // Send email via Resend (works when RESEND_API_KEY is set)
-        if (process.env.RESEND_API_KEY) {
-          try {
-            const from =
-              process.env.RESEND_FROM || "AlmsGiving <onboarding@resend.dev>";
-    
-            await resend.emails.send({
-              from,
-              to: user.email,
-              subject: "Reset your password",
-              html: `
+    // Send email via Resend (works when RESEND_API_KEY is set)
+    if (process.env.RESEND_API_KEY) {
+      try {
+        const from =
+          process.env.RESEND_FROM || "AlmsGiving <onboarding@resend.dev>";
+
+        await resend.emails.send({
+          from,
+          to: user.email,
+          subject: "Reset your password",
+          html: `
                 <div style="font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial; line-height: 1.5">
                   <h2 style="margin:0 0 12px 0;">Reset your password</h2>
                   <p style="margin:0 0 12px 0;">You requested a password reset for your AlmsGiving nonprofit account.</p>
@@ -193,14 +193,14 @@ router.post("/forgot-password", async (req, res) => {
                   <p style="margin:0;color:#475569;font-size:14px;">Link: ${resetUrl}</p>
                 </div>
               `,
-            });
-    
-            console.log("Resend: reset email sent to", user.email);
-          } catch (e) {
-            console.error("Resend send failed:", e);
-            // Keep generic response (no enumeration). Still let DEV log be the fallback.
-          }
-        }
+        });
+
+        console.log("Resend: reset email sent to", user.email);
+      } catch (e) {
+        console.error("Resend send failed:", e);
+        // Keep generic response (no enumeration). Still let DEV log be the fallback.
+      }
+    }
 
     // Later: email it (nodemailer, resend, etc.)
     return genericOk();
