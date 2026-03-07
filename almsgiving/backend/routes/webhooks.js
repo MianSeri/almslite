@@ -77,7 +77,12 @@ If you have questions, reply to this email.`;
 }
 
 async function sendReceiptEmail(payload) {
-  const { to, subject, html } = payload;
+  const to = process.env.RECEIPT_TEST_EMAIL || payload.to;
+  const { subject, html } = payload;
+
+  if (process.env.RECEIPT_TEST_EMAIL) {
+    console.log("Email routed to test inbox:", process.env.RECEIPT_TEST_EMAIL);
+  }
 
   if (!process.env.RESEND_API_KEY) {
     throw new Error("Missing RESEND_API_KEY");
