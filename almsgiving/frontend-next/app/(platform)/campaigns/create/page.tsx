@@ -298,11 +298,14 @@ export default function CreateCampaignPage() {
                 <input
                   id="imageUrl"
                   name="imageUrl"
+                  type="text"
                   value={form.imageUrl}
                   onChange={handleChange}
                   placeholder="https://example.com/photo.jpg or /uploads/..."
+                  disabled={!!imageFile}
                 />
-                <p className={styles.hint}>Use a direct jpg/png link (no file://).</p>
+                <p className={styles.hint}>Use a full image URL or leave the existing /uploads/ path. Uploading a new image overrides this value.
+                </p>
               </div>
 
               <div className={styles.field}>
@@ -315,6 +318,14 @@ export default function CreateCampaignPage() {
                     const file = e.target.files?.[0] || null;
 
                     setImageFile(file);
+
+                    // If user uploads a file, clear imageUrl
+                    if (file) {
+                      setForm((f) => ({
+                        ...f,
+                        imageUrl: "",
+                      }));
+                    }
 
                     if (imagePreview) {
                       URL.revokeObjectURL(imagePreview);

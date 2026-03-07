@@ -274,10 +274,11 @@ export default function EditCampaignPage() {
                 <input
                   id="imageUrl"
                   name="imageUrl"
-                  type="url"
+                  type="text"
                   value={form.imageUrl}
                   onChange={handleChange}
                   placeholder="https://example.com/photo.jpg or /uploads/..."
+                  disabled={!!imageFile}
                 />
                 <p className="ec-hint">Use a direct jpg/png link. Best for deployed demo campaigns.</p>
               </div>
@@ -288,15 +289,24 @@ export default function EditCampaignPage() {
                   id="imageFile"
                   type="file"
                   accept="image/jpeg,image/png"
-                  onChange={(e) => {
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                     const file = e.target.files?.[0] || null;
                     setImageFile(file);
 
-                    if (imagePreview) URL.revokeObjectURL(imagePreview);
+                    // If user uploads a file, clear the imageUrl field
+                    if (file) {
+                      setForm((f) => ({
+                        ...f,
+                        imageUrl: "",
+                      }));
+                    }
+
+                    if (imagePreview) {
+                      URL.revokeObjectURL(imagePreview);
+                    }
 
                     if (file) {
-                      const url = URL.createObjectURL(file);
-                      setImagePreview(url);
+                      setImagePreview(URL.createObjectURL(file));
                     } else {
                       setImagePreview("");
                     }
