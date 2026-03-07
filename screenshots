@@ -1,19 +1,19 @@
-# Screenshots
+## Screenshots
 
-## Homepage
-![Homepage](./screenshots/home.png)
+### Homepage
+![Homepage](screenshots/home.png)
 
-## Campaign Discovery
-![Campaigns](./screenshots/campaigns.png)
+### Campaign Discovery
+![Campaigns](screenshots/campaigns.png)
 
-## Nonprofit Dashboard
-![Dashboard](./screenshots/dashboard.png)
+### Campaign Creation
+![Create Campaign](screenshots/create-campaign.png)
 
-## Create Campaign
-![Create Campaign](./screenshots/create-campaign.png)
+### Nonprofit Dashboard
+![Dashboard](screenshots/dashboard.png)
 
-## Donation Flow
-![Donation](./screenshots/donation.png)
+### Donation Flow
+![Donation](screenshots/donation.png)
 
-## Manage Campaigns
-![My Campaigns](./screenshots/mycampaign.png)
+### Campaign Management
+![My Campaigns](screenshots/mycampaign.png)
