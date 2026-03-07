@@ -242,7 +242,7 @@ export default function NonprofitLoginPage() {
         </div>
 
         <p className={`${styles.small} ${styles.authFooter}`}>
-          Secure by design • Built for trust • AlmsGiving
+          Secure by design • Built for trust • AlmsLite
         </p>
       </div>
     </div>

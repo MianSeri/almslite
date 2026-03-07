@@ -174,7 +174,7 @@ router.post("/forgot-password", async (req, res) => {
     if (process.env.RESEND_API_KEY) {
       try {
         const from =
-          process.env.RESEND_FROM || "AlmsGiving <onboarding@resend.dev>";
+          process.env.RESEND_FROM || "Alms <onboarding@resend.dev>";
 
         await resend.emails.send({
           from,
@@ -183,7 +183,7 @@ router.post("/forgot-password", async (req, res) => {
           html: `
                 <div style="font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial; line-height: 1.5">
                   <h2 style="margin:0 0 12px 0;">Reset your password</h2>
-                  <p style="margin:0 0 12px 0;">You requested a password reset for your AlmsGiving nonprofit account.</p>
+                  <p style="margin:0 0 12px 0;">You requested a password reset for your AlmsLite nonprofit account.</p>
                   <p style="margin:0 0 16px 0;">
                     <a href="${resetUrl}" style="display:inline-block;padding:10px 14px;border-radius:10px;background:#0ea5a4;color:#fff;text-decoration:none;font-weight:700;">
                       Reset password

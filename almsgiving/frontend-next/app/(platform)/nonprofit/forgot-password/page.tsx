@@ -137,7 +137,7 @@ export default function NonprofitForgotPasswordPage() {
         </section>
 
         <p className={`${styles.authFooter} ${styles.small} ${styles.center}`}>
-          Secure by design · Built for trust · AlmsGiving
+          Secure by design · Built for trust · AlmsLite
         </p>
       </div>
     </main>

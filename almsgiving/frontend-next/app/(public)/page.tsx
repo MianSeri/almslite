@@ -363,7 +363,7 @@ export default function PublicHomePage() {
         </section>
 
         <footer className={styles.footer}>
-          <div className={styles.small}>© {new Date().getFullYear()} AlmsGiving</div>
+          <div className={styles.small}>© {new Date().getFullYear()} AlmsLite</div>
           <div className={styles.small}>Built for trust, designed for impact.</div>
         </footer>
       </div>

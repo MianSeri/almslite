@@ -40,7 +40,7 @@ export default function Navbar() {
             priority
             className={styles.brandLogo}
           />
-          <span className={styles.brandText}>Alms</span>
+          <span className={styles.brandText}>Alms Lite</span>
         </Link>
 
         <div className={styles.links}>
@@ -54,17 +54,15 @@ export default function Navbar() {
               </Link>
               <Link
                 href="/campaigns"
-                className={`${styles.link} ${
-                  pathname?.startsWith("/campaigns") ? styles.active : ""
-                }`}
+                className={`${styles.link} ${pathname?.startsWith("/campaigns") ? styles.active : ""
+                  }`}
               >
                 Campaigns
               </Link>
               <Link
                 href="/nonprofit/login"
-                className={`${styles.link} ${
-                  pathname?.startsWith("/nonprofit/login") ? styles.active : ""
-                }`}
+                className={`${styles.link} ${pathname?.startsWith("/nonprofit/login") ? styles.active : ""
+                  }`}
               >
                 Nonprofit Login
               </Link>
@@ -79,25 +77,22 @@ export default function Navbar() {
               </Link>
               <Link
                 href="/campaigns/my"
-                className={`${styles.link} ${
-                  pathname?.startsWith("/campaigns/my") ? styles.active : ""
-                }`}
+                className={`${styles.link} ${pathname?.startsWith("/campaigns/my") ? styles.active : ""
+                  }`}
               >
                 Campaigns
               </Link>
               <Link
                 href="/campaigns/create"
-                className={`${styles.link} ${
-                  pathname?.startsWith("/campaigns/create") ? styles.active : ""
-                }`}
+                className={`${styles.link} ${pathname?.startsWith("/campaigns/create") ? styles.active : ""
+                  }`}
               >
                 Create Campaign
               </Link>
               <Link
                 href="/dashboard"
-                className={`${styles.link} ${
-                  pathname?.startsWith("/dashboard") ? styles.active : ""
-                }`}
+                className={`${styles.link} ${pathname?.startsWith("/dashboard") ? styles.active : ""
+                  }`}
               >
                 Dashboard
               </Link>
