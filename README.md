@@ -4,7 +4,15 @@ Alms Lite is a full-stack donation platform that enables nonprofit organizations
 
 This project was built as a capstone for the Springboard Software Engineering program.
 
+## Key Highlights
 
+- Full-stack architecture using **Next.js, Express, and MongoDB**
+- Secure **JWT authentication** for nonprofit dashboards
+- **Stripe Payment Intents API** integration for secure donations
+- File uploads using **Multer** for campaign images
+- RESTful API design with protected routes
+- Deployment using **Render + MongoDB Atlas**
+  
 # Key Technical Concepts
 
 - JWT authentication with protected routes
