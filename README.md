@@ -1,4 +1,4 @@
-## Alms Lite Overview
+## Alms Lite
 
 Alms Lite is a fundraising platform designed to help nonprofit organizations launch campaigns and receive online donations securely.
 
@@ -265,25 +265,28 @@ POST /webhooks/stripe
 
 Backend `.env`
 
+```env
 MONGODB_URI=your_mongodb_connection
 PORT=5050
 
 JWT_SECRET=your_jwt_secret
 
-STRIPE_SECRET_KEY=<your_stripe_secret_key>
-STRIPE_WEBHOOK_SECRET=<your_stripe_webhook_secret>
+STRIPE_SECRET_KEY=your_stripe_secret_key
+STRIPE_WEBHOOK_SECRET=your_stripe_webhook_secret
 
 CLIENT_URL=http://localhost:3000
 FRONTEND_URL=https://almslite-frontend.onrender.com
 
 RESEND_API_KEY=your_resend_key
-FROM_EMAIL=<sender_email>
-RECEIPT_TEST_EMAIL=<personal@gmail.com>
+FROM_EMAIL=sender_email
+RECEIPT_TEST_EMAIL=personal@gmail.com
+```
 
 Frontend `.env`
 
+```env
 NEXT_PUBLIC_API_URL=http://localhost:5050
-
+```
 
 ---
 
@@ -291,7 +294,7 @@ NEXT_PUBLIC_API_URL=http://localhost:5050
 
 ### 1. Clone the repository
 
-git clone https://github.com/MianSeri/almsgiving.git
+git clone https://github.com/MianSeri/almslite.git
 
 ### 2. Install backend dependencies
 
@@ -362,16 +365,25 @@ Potential future improvements include:
 
 ---
 
-# Screenshots
+## Screenshots
 
-Add screenshots here before submission.
+### Homepage
+![Homepage](screenshots/home.png)
 
-Examples:
+### Campaign Discovery
+![Campaigns](screenshots/campaigns.png)
 
-Dashboard  
-Campaign page  
-Donation flow  
-Campaign creation page
+### Campaign Creation
+![Create Campaign](screenshots/create-campaign.png)
+
+### Nonprofit Dashboard
+![Dashboard](screenshots/dashboard.png)
+
+### Donation Flow
+![Donation](screenshots/donation.png)
+
+### Campaign Management
+![My Campaigns](screenshots/mycampaign.png)
 
 ---
 
