@@ -2,72 +2,14 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 const Stripe = require("stripe");
-const nodemailer = require("nodemailer");
+const { Resend } = require("resend");
 
 const Donation = require("../models/Donation");
 const Campaign = require("../models/Campaign");
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+const resend = new Resend(process.env.RESEND_API_KEY);
 
-// ------------------------------
-// Mail transport (SMTP OR Ethereal fallback)
-// ------------------------------
-let mailer = null;
-let mailMode = null; // "smtp" | "ethereal"
-
-async function getMailer() {
-  if (mailer) return mailer;
-
-  const hasSMTP =
-    process.env.SMTP_HOST &&
-    process.env.SMTP_USER &&
-    process.env.SMTP_PASS &&
-    process.env.FROM_EMAIL;
-
-  if (hasSMTP) {
-    const smtpPort = Number(process.env.SMTP_PORT || 587);
-
-    mailer = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: smtpPort,
-      secure: smtpPort === 465, // 465=true, 587=false
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
-      },
-    });
-
-    mailMode = "smtp";
-    console.log("Mailer initialized: SMTP");
-    return mailer;
-  }
-
-  // Ethereal fallback (safe for dev/capstone)
-  const testAccount = await nodemailer.createTestAccount();
-
-  console.log("Ethereal account created:");
-  console.log("User:", testAccount.user);
-  console.log("Pass:", testAccount.pass);
-
-  mailer = nodemailer.createTransport({
-    host: testAccount.smtp.host,
-    port: testAccount.smtp.port,
-    secure: testAccount.smtp.secure,
-    auth: {
-      user: testAccount.user,
-      pass: testAccount.pass,
-    },
-  });
-
-  mailMode = "ethereal";
-
-  // Ensure FROM_EMAIL exists so sendMail always works
-  if (!process.env.FROM_EMAIL) {
-    process.env.FROM_EMAIL = `Alms <${testAccount.user}>`;
-  }
-
-  return mailer;
-}
 
 function formatMoney(n) {
   const num = Number(n || 0);
@@ -111,19 +53,19 @@ If you have questions, reply to this email.`;
   <div style="font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; color:#0f172a;">
     <h2 style="margin:0 0 8px;">Donation receipt</h2>
     <p style="margin:0 0 14px;">Thanks, <strong>${escapeHtml(
-      safeDonor
-    )}</strong> — we received your donation.</p>
+    safeDonor
+  )}</strong> — we received your donation.</p>
 
     <div style="border:1px solid rgba(15,23,42,0.12); border-radius:14px; padding:14px; background:#fff;">
       <p style="margin:0 0 8px;"><strong>Amount:</strong> $${escapeHtml(
-        dollars
-      )}</p>
+    dollars
+  )}</p>
       <p style="margin:0 0 8px;"><strong>Campaign:</strong> ${escapeHtml(
-        safeCampaign
-      )}</p>
+    safeCampaign
+  )}</p>
       <p style="margin:0;"><strong>Donation ID:</strong> ${escapeHtml(
-        donationId
-      )}</p>
+    donationId
+  )}</p>
     </div>
 
     <p style="margin:14px 0 0; color:rgba(15,23,42,0.72); font-size:13px; line-height:1.45;">
@@ -135,24 +77,27 @@ If you have questions, reply to this email.`;
 }
 
 async function sendReceiptEmail(payload) {
-  const transport = await getMailer(); // guarantees mailer exists
+  const { to, subject, html } = payload;
 
-  const { to, subject, text, html } = payload;
+  if (!process.env.RESEND_API_KEY) {
+    throw new Error("Missing RESEND_API_KEY");
+  }
 
-  const info = await transport.sendMail({
-    from: process.env.FROM_EMAIL,
+  const from = process.env.FROM_EMAIL || "Alms <onboarding@resend.dev>";
+
+  const { data, error } = await resend.emails.send({
+    from,
     to,
     subject,
-    text,
     html,
   });
 
-  if (mailMode === "ethereal") {
-    console.log("Ethereal Preview URL:", nodemailer.getTestMessageUrl(info));
-  } else {
-    console.log("Receipt email sent via SMTP");
+  if (error) {
+    console.error("Resend receipt email error:", error);
+    throw new Error(error.message || "Failed to send receipt email");
   }
 
+  console.log("Receipt email sent via Resend:", data?.id || "ok");
   return { ok: true };
 }
 
