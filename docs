@@ -1,0 +1,158 @@
+Project Title: AlmsGiving Lite — Donation & Campaign Tracker for Nonprofits
+
+1. Project Overview
+AlmsGiving Lite is a full-stack web application designed to help small nonprofits create and manage donation campaigns. Many smaller community organizations do not have access to expensive fundraising software, so this project will offer an easy way for them to track donations, share campaigns, and view basic analytics. Donors will also be able to browse campaigns and submit “mock donations” to show support.
+This project will allow me to demonstrate everything I’ve learned in the bootcamp, including React, Node, Express, MongoDB, APIs, authentication, and building a dynamic user interface.
+
+2. Tech Stack
+Frontend: React (with React Router for navigation)
+Backend: Node.js + Express (custom API routes and authentication)
+Database: MongoDB / Mongoose
+Hosting:
+Frontend: Netlify or Vercel (Firebase/cloudFare not sure I’m still researching)
+Backend: Render, Railway, or Heroku
+Database: MongoDB Atlas
+I chose this stack because it follows in some degree the curriculum, and it will allow me to build a real full-stack app with a clean separation between frontend and backend.
+
+3. Project Focus
+This will be an evenly focused full-stack application.
+The frontend will handle the user experience (dashboards, forms, browsing campaigns).
+The backend will store all the data (campaigns, nonprofits, donations) with secure routes and authentication.
+Both sides are equally important for this project.
+
+4. Project Type
+This will be a responsive website that works on both desktop and mobile browsers. The UI is simple enough that a mobile app isn’t required at this stage.
+
+5. Project Goal
+The main goal of Alms Lite is to give nonprofits a simple way to manage donation campaigns. They will be able to log in, create campaigns, share their links, and see how many donations they received.
+Donors can browse campaigns and submit a mock donation amount to show support (this is not a real payment system).
+The goal is not to replace real donation platforms, but to show how a donation management system works behind the scenes.
+
+6. Users
+There are two types of users:
+1. Nonprofit Staff
+Small charities
+Community groups
+School clubs
+Church groups
+Individuals running donation drives
+They need:
+A dashboard
+Campaign creation forms
+A place to track donation activity
+2. Donors
+Anyone supporting a nonprofit’s cause
+Students
+Families
+Community members
+They need:
+Campaign browsing
+Ability to submit a mock donation
+A simple “Thank you” confirmation
+
+7. Data and API Plan
+Data that will be stored:
+Nonprofit accounts (name, email, password, logo)
+Campaigns (title, description, goal amount, image, start date, end date)
+Donations (name, amount, timestamp, optional message)
+Where the data will come from:
+I will primarily build my own API using Node + Express.
+The API will store and retrieve all information from MongoDB.
+Optional:
+A currency conversion API (free)
+An email API to send donation confirmations
+At this stage, I only need to outline the kind of data the app will use, not the final external API choice.
+
+8. Project Approach
+This section breaks down how I plan to build the app.
+1. Database Schema (Draft)
+Users (Nonprofits): name, email, passwordHash, logo
+Campaigns: title, description, goalAmount, amountRaised, image, nonprofitId
+Donations: donorName, amount, message, campaignId, createdAt
+2. API Considerations
+Need to protect routes using JWT
+Donation totals must update correctly
+Campaigns belong to specific nonprofits
+No real payment data (mock only)
+Must avoid exposing private info
+3. Sensitive Information
+Passwords must be hashed
+Donor names/messages treated as private
+No credit card or actual payment data is used
+
+9. App Functionality
+Nonprofit Features
+Sign up and login
+Create/edit/delete campaigns
+Upload a campaign image
+Dashboard showing:
+Total donations
+Recent donors
+Progress toward fundraising goal
+Donor Features
+Browse all public campaigns
+View campaign details
+Submit a mock donation
+Receive a “thank you” confirmation
+General Features
+Routing for different pages
+Form validation
+Loading states
+Simple analytics (charts or progress bars)
+
+10. User Flow
+Nonprofit User Flow
+Sign up or log in
+Land on dashboard
+Create a new campaign
+Share campaign link
+View donations and progress
+Edit or end campaign
+Donor User Flow
+Visit homepage
+Browse campaigns
+Select one
+Submit a mock donation
+See confirmation message
+
+11. Features Beyond CRUD
+To ensure this is more than just a Create/Read/Update/Delete app, I will include:
+A donation analytics dashboard
+A real-time progress bar
+Activity feed of most recent donors
+Auto-generated mock receipt
+Campaign sharing link
+Search and filter features
+These features make the app feel more like a real nonprofit tool rather than a simple database project.
+
+12. Stretch Goals
+If time allows, I may add:
+Email receipts via SendGrid
+Multi-currency donations using a conversion API
+Donor login system
+PDF receipt generator
+QR codes for campaigns
+Recurring donations (mock)
+
+13. Task Breakdown 
+Backend Tasks
+Set up Express application
+Connect to MongoDB
+Create nonprofit routes (signup/login)
+Create campaign routes
+Create donation routes
+Add validation and error handling
+Frontend Tasks
+Create React project
+Build nonprofit dashboard
+Build campaign creation form
+Build donor-facing campaign page
+Build donation form
+Add navigation and routing
+Full-Stack Tasks
+Connect frontend to backend with API calls
+Deploy backend and frontend
+Test all major flows
+Add optional external API integrations
+
+

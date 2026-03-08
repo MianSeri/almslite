@@ -19,7 +19,7 @@ The project demonstrates a full-stack architecture using modern web technologies
 - File uploads using **Multer** for campaign images
 - RESTful API design with protected routes
 - Deployment using **Render + MongoDB Atlas**
-  
+
 # Key Technical Concepts
 
 - JWT authentication with protected routes
@@ -28,7 +28,7 @@ The project demonstrates a full-stack architecture using modern web technologies
 - Server-side file uploads using Multer
 - MongoDB schema modeling with Mongoose
 - Client/server separation using Next.js and Express
- 
+
 ---
 
 # Live Demo
@@ -47,12 +47,14 @@ https://almslite-frontend.onrender.com/campaigns
 # Features
 
 ### Donor Features
+
 - Browse public fundraising campaigns
 - View campaign details and progress
 - Donate securely using Stripe
 - Real-time funding progress display
 
 ### Nonprofit Features
+
 - Secure authentication with JWT
 - Create fundraising campaigns
 - Edit campaign details and images
@@ -60,6 +62,7 @@ https://almslite-frontend.onrender.com/campaigns
 - Dashboard to manage campaigns
 
 ### Platform Features
+
 - Stripe payment integration with webhook verification
 - Automatic donation receipt emails via Resend
 - Password reset email workflow
@@ -80,10 +83,12 @@ Transactional emails are handled using **Resend**.
 Two automated email workflows are implemented:
 
 ### Password Reset Emails
+
 Users can request a password reset link.  
 A secure token is generated and sent via email.
 
 ### Donation Receipts
+
 After Stripe confirms a successful payment, a webhook triggers the backend to:
 
 1. Verify the Stripe event
@@ -98,12 +103,14 @@ This ensures donation confirmation and receipts are processed **only after verif
 # Tech Stack
 
 Frontend
+
 - Next.js
 - React
 - CSS Modules
 - Stripe.js
 
 Backend
+
 - Node.js
 - Express
 - MongoDB
@@ -112,9 +119,11 @@ Backend
 - JWT authentication
 
 Payments
+
 - Stripe Payment Intents API
 
 Deployment
+
 - Render (frontend + backend)
 - MongoDB Atlas (database)
 
@@ -123,14 +132,14 @@ Deployment
 # Architecture
 
 Browser (Donor / Nonprofit)
-        │
-        ▼
+│
+▼
 Next.js Frontend (React)
-        │
-        ▼
+│
+▼
 Express API (Node.js)
-        │
-        ▼
+│
+▼
 MongoDB Atlas (Database)
 
 Stripe Payment Flow
@@ -176,7 +185,7 @@ The project follows a monorepo structure separating the frontend and backend app
 
 Campaign
 
-._id
+.\_id
 
 .nonprofitId
 
@@ -200,7 +209,7 @@ Campaign
 
 Nonprofit
 
-._id
+.\_id
 
 .organizationName
 
@@ -216,7 +225,7 @@ Nonprofit
 
 Donation
 
-._id
+.\_id
 
 .campaignId
 
@@ -256,8 +265,8 @@ POST /donations/create-intent
 POST /donations/confirm
 
 ## Webhooks
-POST /webhooks/stripe
 
+POST /webhooks/stripe
 
 ---
 
@@ -265,19 +274,29 @@ POST /webhooks/stripe
 
 Backend `.env`
 
+<<<<<<< HEAD
+
 ```env
+=======
+>>>>>>> main
 MONGODB_URI=your_mongodb_connection
 PORT=5050
 
 JWT_SECRET=your_jwt_secret
 
+<<<<<<< HEAD
 STRIPE_SECRET_KEY=your_stripe_secret_key
 STRIPE_WEBHOOK_SECRET=your_stripe_webhook_secret
+=======
+STRIPE_SECRET_KEY=<your_stripe_secret_key>
+STRIPE_WEBHOOK_SECRET=<your_stripe_webhook_secret>
+>>>>>>> main
 
 CLIENT_URL=http://localhost:3000
 FRONTEND_URL=https://almslite-frontend.onrender.com
 
 RESEND_API_KEY=your_resend_key
+<<<<<<< HEAD
 FROM_EMAIL=sender_email
 RECEIPT_TEST_EMAIL=personal@gmail.com
 ```
@@ -288,13 +307,28 @@ Frontend `.env`
 NEXT_PUBLIC_API_URL=http://localhost:5050
 ```
 
+=======
+FROM_EMAIL=<sender_email>
+RECEIPT_TEST_EMAIL=<personal@gmail.com>
+
+Frontend `.env`
+
+NEXT_PUBLIC_API_URL=http://localhost:5050
+
+> > > > > > > main
+
 ---
 
 # Running the Project Locally
 
 ### 1. Clone the repository
 
+<<<<<<< HEAD
 git clone https://github.com/MianSeri/almslite.git
+=======
+git clone https://github.com/MianSeri/almsgiving.git
+
+> > > > > > > main
 
 ### 2. Install backend dependencies
 
@@ -303,36 +337,26 @@ npm install
 
 ### 3. Install frontend dependencies
 
-
 cd ../frontend-next
 npm install
 
-
 ### 4. Start backend
-
 
 cd backend
 npm run dev
 
-
 ### 5. Start frontend
-
 
 cd frontend-next
 npm run dev
 
-
 Frontend runs on
-
 
 http://localhost:3000
 
-
 Backend runs on
 
-
 http://localhost:5050
-
 
 ---
 
@@ -365,25 +389,46 @@ Potential future improvements include:
 
 ---
 
+<<<<<<< HEAD
+
 ## Screenshots
 
 ### Homepage
+
 ![Homepage](almslite/screenshots/home.png)
 
 ### Campaign Discovery
+
 ![Campaigns](almslite/screenshots/campaigns.png)
 
 ### Campaign Creation
+
 ![Create Campaign](almslite/screenshots/create-campaign.png)
 
 ### Nonprofit Dashboard
+
 ![Dashboard](almslite/screenshots/dashboard.png)
 
 ### Donation Flow
+
 ![Donation](almslite/screenshots/donation.png)
 
 ### Campaign Management
-![My Campaigns](almslite/screenshots/mycampaign.png)
+
+# ![My Campaigns](almslite/screenshots/mycampaign.png)
+
+# Screenshots
+
+Add screenshots here before submission.
+
+Examples:
+
+Dashboard  
+Campaign page  
+Donation flow  
+Campaign creation page
+
+> > > > > > > main
 
 ---
 
@@ -397,7 +442,6 @@ Manual testing was performed for:
 - Stripe payment confirmation
 - Authentication
 - Dashboard access control
-
 
 ## Email Receipts (Development Mode)
 
@@ -419,7 +463,6 @@ In a production environment this would be resolved by:
 - Updating the `FROM_EMAIL` address to a domain email (e.g., `donations@almslite.org`)
 - Sending receipts directly to donor email addresses
 
-
 ---
 
 ## Deployment note
@@ -434,7 +477,6 @@ For deployed demo content, public image URLs are recommended because local file 
 - Authentication is handled using **JWT tokens**
 - Stripe webhook signatures are verified before processing events
 - MongoDB transactions ensure donation confirmation and campaign updates remain consistent
-
 
 # Author
 
