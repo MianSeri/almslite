@@ -368,22 +368,22 @@ Potential future improvements include:
 ## Screenshots
 
 ### Homepage
-![Homepage](screenshots/home.png)
+![Homepage](almslite/screenshots/home.png)
 
 ### Campaign Discovery
-![Campaigns](screenshots/campaigns.png)
+![Campaigns](almslite/screenshots/campaigns.png)
 
 ### Campaign Creation
-![Create Campaign](screenshots/create-campaign.png)
+![Create Campaign](almslite/screenshots/create-campaign.png)
 
 ### Nonprofit Dashboard
-![Dashboard](screenshots/dashboard.png)
+![Dashboard](almslite/screenshots/dashboard.png)
 
 ### Donation Flow
-![Donation](screenshots/donation.png)
+![Donation](almslite/screenshots/donation.png)
 
 ### Campaign Management
-![My Campaigns](screenshots/mycampaign.png)
+![My Campaigns](almslite/screenshots/mycampaign.png)
 
 ---
 
