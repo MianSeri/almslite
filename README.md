@@ -417,19 +417,6 @@ Potential future improvements include:
 
 # ![My Campaigns](almslite/screenshots/mycampaign.png)
 
-# Screenshots
-
-Add screenshots here before submission.
-
-Examples:
-
-Dashboard  
-Campaign page  
-Donation flow  
-Campaign creation page
-
-> > > > > > > main
-
 ---
 
 # Testing
