@@ -368,22 +368,22 @@ Potential future improvements include:
 ## Screenshots
 
 ### Homepage
-![Homepage](screenshots/home.png)
+![Homepage](./screenshots/home.png)
 
 ### Campaign Discovery
-![Campaigns](screenshots/campaigns.png)
+![Campaigns](./screenshots/campaigns.png)
 
 ### Campaign Creation
-![Create Campaign](screenshots/create-campaign.png)
+![Create Campaign](./screenshots/create-campaign.png)
 
 ### Nonprofit Dashboard
-![Dashboard](screenshots/dashboard.png)
+![Dashboard](./screenshots/dashboard.png)
 
 ### Donation Flow
-![Donation](screenshots/donation.png)
+![Donation](./screenshots/donation.png)
 
 ### Campaign Management
-![My Campaigns](screenshots/mycampaign.png)
+![My Campaigns](./screenshots/mycampaign.png)
 
 ---
 
